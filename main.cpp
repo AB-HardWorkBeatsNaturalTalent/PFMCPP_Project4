@@ -77,8 +77,9 @@ returning lhs
 10
 good to go!
 */
+#include <iostream>
+#include <math.h>
 
- 
 struct FloatType
 {
     float add( float lhs, float rhs );
@@ -104,9 +105,9 @@ float FloatType::multiply(float lhs, float rhs)
 
 float FloatType::divide(float lhs, float rhs)
 {
-    if(rhs == 0)
+    if(fabs(rhs - 0.0f) <= 0)
     {
-        std::cout << "floating-point-division-by-zero" << std::endl;
+        std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
     return lhs / rhs;
 } 
@@ -137,9 +138,9 @@ double DoubleType::multiply(double lhs, double rhs)
 
 double DoubleType::divide(double lhs, double rhs)
 {
-    if(rhs == 0)
+    if(fabs(rhs - 0) <= 0)
     {
-        std::cout << "floating-point-division-by-zero" << std::endl;
+        std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
     return lhs / rhs;
 }
@@ -171,8 +172,9 @@ int IntType::divide(int lhs, int rhs)
 {
     if(rhs == 0)
     {
-        std::cout << "floating-point-division-by-zero" << std::endl;
-        return {};
+        std::cout << "error, integer division by zero will crash the program!" << std::endl;
+        std::cout << "returning lhs" << std::endl;
+        return lhs;
     }
     return lhs / rhs;
 } 
