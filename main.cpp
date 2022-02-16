@@ -176,34 +176,34 @@ struct FloatType
     float* multiply(float lhs, float rhs );
     float* divide(float lhs, float rhs );
 
-    float* heapAllocPrim = nullptr;
+    float* value = nullptr;
 
-    FloatType( float* ptr ) : heapAllocPrim( ptr )
+    FloatType( float* ptr ) : value( ptr )
     {
         
     }
     ~FloatType()
     {
-        delete heapAllocPrim;
+        delete value;
     }
 };
 
 float* FloatType::add(float lhs, float rhs)
 {
-    *heapAllocPrim = lhs + rhs;
-    return heapAllocPrim;
+    *value = lhs + rhs;
+    return value;
 } 
 
 float* FloatType::subtract(float lhs, float rhs)
 {
-    *heapAllocPrim = lhs - rhs;
-    return heapAllocPrim;
+    *value = lhs - rhs;
+    return value;
 } 
 
 float* FloatType::multiply(float lhs, float rhs)
 {
-    *heapAllocPrim = lhs * rhs;
-    return heapAllocPrim;
+    *value = lhs * rhs;
+    return value;
 } 
 
 float* FloatType::divide(float lhs, float rhs)
@@ -212,8 +212,8 @@ float* FloatType::divide(float lhs, float rhs)
     {
         std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
-    *heapAllocPrim = lhs / rhs;
-    return heapAllocPrim;
+    *value = lhs / rhs;
+    return value;
 } 
 
 
