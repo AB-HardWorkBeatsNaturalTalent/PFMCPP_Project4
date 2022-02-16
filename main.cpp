@@ -417,7 +417,7 @@ int main()
        
     std::cout << "---------------------\n" << std::endl; 
     
-    // DoubleType/IntType object instanciation and method tests
+    // DoubleType/IntType object instantiation and method tests
     // --------
     std::cout << "Initial value of dt: " << dt.value << std::endl;
     std::cout << "Initial value of it: " << it.value << std::endl;
