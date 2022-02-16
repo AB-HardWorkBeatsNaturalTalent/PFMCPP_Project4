@@ -106,7 +106,7 @@ good to go!
 
 
 */
-
+/*
 #include <iostream>
 
 int main()
@@ -165,7 +165,7 @@ int main()
     return 0;
 }
 
-
+*/
 #include <iostream>
 #include <math.h>
 
@@ -175,6 +175,13 @@ struct FloatType
     float subtract(float lhs,float rhs );
     float multiply(float lhs, float rhs );
     float divide(float lhs, float rhs );
+
+    float* heapAllocPrim;
+
+    FloatType( float* ptr ) : heapAllocPrim( ptr )
+    {
+        
+    }
 };
 
 float FloatType::add(float lhs, float rhs)
@@ -283,10 +290,10 @@ int IntType::divide(int lhs, int rhs)
  Wait for my code review.
  */
 
-#include <iostream>
+
 int main() 
 {
-    FloatType ft;
+    FloatType ft(new float(3.0f));
     std::cout << "result of ft.add(): " << ft.add( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
