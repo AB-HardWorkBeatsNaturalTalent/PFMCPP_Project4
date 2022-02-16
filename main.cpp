@@ -171,10 +171,10 @@ int main()
 
 struct FloatType
 {
-    float add( float lhs, float rhs );
-    float subtract(float lhs,float rhs );
-    float multiply(float lhs, float rhs );
-    float divide(float lhs, float rhs );
+    float* add( float lhs, float rhs );
+    float* subtract(float lhs,float rhs );
+    float* multiply(float lhs, float rhs );
+    float* divide(float lhs, float rhs );
 
     float* heapAllocPrim = nullptr;
 
@@ -188,29 +188,32 @@ struct FloatType
     }
 };
 
-float FloatType::add(float lhs, float rhs)
+float* FloatType::add(float lhs, float rhs)
 {
     *heapAllocPrim = lhs + rhs;
-    return *heapAllocPrim;
+    return heapAllocPrim;
 } 
 
-float FloatType::subtract(float lhs, float rhs)
+float* FloatType::subtract(float lhs, float rhs)
 {
-    return lhs - rhs;
+    *heapAllocPrim = lhs - rhs;
+    return heapAllocPrim;
 } 
 
-float FloatType::multiply(float lhs, float rhs)
+float* FloatType::multiply(float lhs, float rhs)
 {
-    return lhs * rhs;
+    *heapAllocPrim = lhs * rhs;
+    return heapAllocPrim;
 } 
 
-float FloatType::divide(float lhs, float rhs)
+float* FloatType::divide(float lhs, float rhs)
 {
     if(fabs(rhs - 0.0f) <= 0)
     {
         std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
-    return lhs / rhs;
+    *heapAllocPrim = lhs / rhs;
+    return heapAllocPrim;
 } 
 
 
@@ -299,7 +302,7 @@ int IntType::divide(int lhs, int rhs)
 int main() 
 {
     FloatType ft(new float());
-    std::cout << "result of ft.add(): " << ft.add( 123.456f, 432.1f) << std::endl;
+    std::cout << "result of ft.add(): " << *ft.add( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.divide(): " << ft.divide( 123.456f, 432.1f) << std::endl;
