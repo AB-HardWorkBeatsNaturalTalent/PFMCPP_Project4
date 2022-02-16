@@ -411,7 +411,7 @@ int main()
     std::cout << "IntType divide result=" << it.divide(3).value << std::endl << std::endl;
     std::cout << "Chain calculation = " << (it.multiply(1000).divide(2).subtract(10).add(100)).value << std::endl;
 
-        // FloatType object instanciation and method tests
+        // FloatType object instantiation and method tests
     // --------
     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft.add( 3.0f ).multiply(1.5f).divide(5.0f).value << std::endl;
        
