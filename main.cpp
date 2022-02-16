@@ -190,7 +190,8 @@ struct FloatType
 
 float FloatType::add(float lhs, float rhs)
 {
-    return lhs + rhs;
+    *heapAllocPrim = lhs + rhs;
+    return *heapAllocPrim;
 } 
 
 float FloatType::subtract(float lhs, float rhs)
@@ -297,7 +298,7 @@ int IntType::divide(int lhs, int rhs)
 
 int main() 
 {
-    FloatType ft(new float(3.0f));
+    FloatType ft(new float());
     std::cout << "result of ft.add(): " << ft.add( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
     std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
