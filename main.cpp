@@ -176,7 +176,7 @@ struct FloatType
     float multiply(float lhs, float rhs );
     float divide(float lhs, float rhs );
 
-    float* heapAllocPrim;
+    float* heapAllocPrim = nullptr;
 
     FloatType( float* ptr ) : heapAllocPrim( ptr )
     {
