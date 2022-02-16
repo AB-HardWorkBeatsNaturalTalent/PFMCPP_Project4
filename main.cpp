@@ -303,14 +303,14 @@ int main()
 {
     FloatType ft(new float());
     std::cout << "result of ft.add(): " << *ft.add( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 123.456f, 432.1f) << std::endl;
+    std::cout << "result of ft.subtract(): " << *ft.subtract( 123.456f, 432.1f) << std::endl;
+    std::cout << "result of ft.multiply(): " << *ft.multiply( 123.456f, 432.1f) << std::endl;
+    std::cout << "result of ft.divide(): " << *ft.divide( 123.456f, 432.1f) << std::endl;
 
-    std::cout << "result of ft.add(): " << ft.add( 4444.56f, 0.0f)  << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 4444.56f, 0.0f) << std::endl;
+    std::cout << "result of ft.add(): " << *ft.add( 4444.56f, 0.0f)  << std::endl;
+    std::cout << "result of ft.subtract(): " << *ft.subtract( 4444.56f, 0.0f) << std::endl;
+    std::cout << "result of ft.multiply(): " << *ft.multiply( 4444.56f, 0.0f) << std::endl;
+    std::cout << "result of ft.divide(): " << *ft.divide( 4444.56f, 0.0f) << std::endl;
 
     DoubleType db;
     std::cout << "result of db.add(): " << db.add( 123.456, 432.1) << std::endl;
