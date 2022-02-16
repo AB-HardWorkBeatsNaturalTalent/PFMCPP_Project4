@@ -13,16 +13,19 @@ New/This/Pointers/References conclusion
      on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
          on the heap without leaking, without using smart pointers. 
  */
+#include <memory>
 
+struct A { };
 
+struct HeapA 
+{
+    std::unique_ptr<A> uPtrToA;
 
-
-
-
-
-
-
-
+    HeapA()
+    {
+        uPtrToA.reset( new A() );
+    }
+};
 
  /*
  1) Edit your 3 structs so that they own a heap-allocated primitive type without using smart pointers named 'value'
