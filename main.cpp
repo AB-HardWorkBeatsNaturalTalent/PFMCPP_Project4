@@ -182,6 +182,10 @@ struct FloatType
     {
         
     }
+    ~FloatType()
+    {
+        delete heapAllocPrim;
+    }
 };
 
 float FloatType::add(float lhs, float rhs)
