@@ -25,7 +25,7 @@ struct HeapA
     {
         delete ptr;
     }
-}
+};
 
 /*
 struct HeapA 
