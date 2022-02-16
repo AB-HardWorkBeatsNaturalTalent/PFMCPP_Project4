@@ -127,10 +127,10 @@ struct DoubleType;
 
 struct FloatType
 {
-    FloatType& add( float lhs, float rhs );
-    FloatType& subtract( float lhs, float rhs );
-    FloatType& multiply( float lhs, float rhs );
-    FloatType& divide( float lhs, float rhs );
+    FloatType& add( float rhs );
+    FloatType& subtract( float rhs );
+    FloatType& multiply( float rhs );
+    FloatType& divide( float rhs );
 
     FloatType& add( const FloatType& toAdd );
     FloatType& subtract( const FloatType& toSub );
@@ -159,10 +159,10 @@ struct FloatType
 
 struct DoubleType
 {
-    DoubleType& add( double lhs, double rhs );
-    DoubleType& subtract(double  lhs, double rhs );
-    DoubleType& multiply( double lhs, double rhs );
-    DoubleType& divide( double lhs, double rhs );
+    DoubleType& add( double rhs );
+    DoubleType& subtract(double rhs );
+    DoubleType& multiply( double rhs );
+    DoubleType& divide( double rhs );
 
     DoubleType& add( const DoubleType& toAdd );
     DoubleType& subtract( const DoubleType& toSub );
@@ -193,10 +193,10 @@ struct DoubleType
 
 struct IntType
 {
-    IntType& add( int lhs, int rhs );
-    IntType& subtract( int lhs, int rhs );
-    IntType& multiply( int lhs, int rhs );
-    IntType& divide( int lhs, int rhs );
+    IntType& add( int rhs );
+    IntType& subtract( int rhs );
+    IntType& multiply( int rhs );
+    IntType& divide( int rhs );
 
     IntType& add( const IntType& toAdd );
     IntType& subtract( const IntType& toSub );
@@ -223,141 +223,207 @@ struct IntType
 
 IntType& IntType::add( const IntType& toAdd )
 {
-    return add( *value, *toAdd.value );
+    return add( *toAdd.value );
 }
 IntType& IntType::subtract( const IntType& toSub )
 {
-    return subtract( *value, *toSub.value );
+    return subtract( *toSub.value );
 }
 IntType& IntType::multiply( const IntType& toMult )
 {
-    return multiply( *value, *toMult.value );
+    return multiply( *toMult.value );
 }
 IntType& IntType::divide( const IntType& denom )
 {
-    return divide( *value, *denom.value );
+    return divide( *denom.value );
 }
 
-IntType& IntType::add(int lhs, int rhs)
+IntType& IntType::add(int rhs)
 {
-    *value = lhs + rhs;
+    *value += rhs;
     return *this;
 } 
 
-IntType& IntType::subtract(int lhs, int rhs)
+IntType& IntType::subtract(int rhs)
 {
-    *value = lhs - rhs;
+    *value -= rhs;
     return *this;
 } 
 
-IntType& IntType::multiply(int lhs, int rhs)
+IntType& IntType::multiply(int rhs)
 {
-    *value = lhs * rhs;
+    *value *= rhs;
     return *this;
 } 
 
-IntType& IntType::divide(int lhs, int rhs)
+IntType& IntType::divide(int rhs)
 {
     if(rhs == 0)
     {
         std::cout << "error, integer division by zero will crash the program!" << std::endl;
         std::cout << "returning lhs" << std::endl;
-        *value = lhs;
         return *this;
     }
-    *value = lhs / rhs;
+    *value /= rhs;
     return *this;
 } 
 FloatType& FloatType::divide( const FloatType& denom )
 {
-    return divide( *value, *denom.value );
+    return divide( *denom.value );
 }
 FloatType& FloatType::add( const FloatType& toAdd )
 {
-    return add( *value, *toAdd.value );
+    return add( *toAdd.value );
 }
 FloatType& FloatType::subtract( const FloatType& toSub )
 {
-    return subtract( *value, *toSub.value);
+    return subtract( *toSub.value);
 }
 FloatType& FloatType::multiply( const FloatType& toMult )
 {
-    return multiply( *value, *toMult.value );
+    return multiply( *toMult.value );
 }
 
-FloatType& FloatType::add(float lhs, float rhs)
+FloatType& FloatType::divide( const IntType& denom )
 {
-    *value = lhs + rhs;
+    return divide( *denom.value );
+}
+FloatType& FloatType::add( const IntType& toAdd )
+{
+    return add( *toAdd.value );
+}
+FloatType& FloatType::subtract( const IntType& toSub )
+{
+    return subtract( *toSub.value);
+}
+FloatType& FloatType::multiply( const IntType& toMult )
+{
+    return multiply( *toMult.value );
+}
+
+FloatType& FloatType::divide( const DoubleType& denom )
+{
+    return divide( *denom.value );
+}
+FloatType& FloatType::add( const DoubleType& toAdd )
+{
+    return add( *toAdd.value );
+}
+FloatType& FloatType::subtract( const DoubleType& toSub )
+{
+    return subtract( *toSub.value);
+}
+FloatType& FloatType::multiply( const DoubleType& toMult )
+{
+    return multiply( *toMult.value );
+}
+
+FloatType& FloatType::add(float rhs)
+{
+    *value += rhs;
     return *this;
 } 
 
-FloatType& FloatType::subtract(float lhs, float rhs)
+FloatType& FloatType::subtract(float rhs)
 {
-    *value = lhs - rhs;
+    *value -= rhs;
     return *this;
 } 
 
-FloatType& FloatType::multiply(float lhs, float rhs)
+FloatType& FloatType::multiply(float rhs)
 {
-    *value = lhs * rhs;
+    *value *= rhs;
     return *this;
 } 
 
-FloatType& FloatType::divide(float lhs, float rhs)
+FloatType& FloatType::divide(float rhs)
 {
     if(fabs(rhs - 0.0f) <= 0)
     {
         std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
-    *value = lhs / rhs;
+    *value /= rhs;
     return *this;
 } 
 
-DoubleType& DoubleType::add(double lhs, double rhs)
+DoubleType& DoubleType::add(double rhs)
 {
-    *value = lhs + rhs;
+    *value += rhs;
     return *this;
 } 
 
-DoubleType& DoubleType::subtract(double lhs, double rhs)
+DoubleType& DoubleType::subtract(double rhs)
 {
-    *value = lhs - rhs;
+    *value -= rhs;
     return *this;
 } 
 
-DoubleType& DoubleType::multiply(double lhs, double rhs)
+DoubleType& DoubleType::multiply(double rhs)
 {
-    *value = lhs * rhs;
+    *value *= rhs;
     return *this;
 } 
 
-DoubleType& DoubleType::divide(double lhs, double rhs)
+DoubleType& DoubleType::divide(double rhs)
 {
     if(fabs(rhs - 0) <= 0)
     {
         std::cout << "floating-point-division-by-zero returns 'inf' !" << std::endl;
     }
-    *value = lhs / rhs;
+    *value /= rhs;
     return *this;
 }
 
 DoubleType& DoubleType::add( const DoubleType& toAdd )
 {
-    return add( *value, *toAdd.value );
+    return add( *toAdd.value );
 }
 DoubleType& DoubleType::subtract( const DoubleType& toSub )
 {
-    return subtract( *value, *toSub.value );
+    return subtract( *toSub.value );
 }
 DoubleType& DoubleType::multiply( const DoubleType& toMult )
 {
-    return multiply( *value, *toMult.value );  
+    return multiply( *toMult.value );  
 }
 DoubleType& DoubleType::divide( const DoubleType& denom )
 {
-    return divide( *value, *denom.value );  
+    return divide( *denom.value );  
 }
 
+DoubleType& DoubleType::add( const FloatType& toAdd )
+{
+    return add( *toAdd.value );
+}
+DoubleType& DoubleType::subtract( const FloatType& toSub )
+{
+    return subtract( *toSub.value );
+}
+DoubleType& DoubleType::multiply( const FloatType& toMult )
+{
+    return multiply( *toMult.value );  
+}
+DoubleType& DoubleType::divide( const FloatType& denom )
+{
+    return divide( *denom.value );  
+}
+
+DoubleType& DoubleType::add( const IntType& toAdd )
+{
+    return add( *toAdd.value );
+}
+DoubleType& DoubleType::subtract( const IntType& toSub )
+{
+    return subtract( *toSub.value );
+}
+DoubleType& DoubleType::multiply( const IntType& toMult )
+{
+    return multiply( *toMult.value );  
+}
+DoubleType& DoubleType::divide( const IntType& denom )
+{
+    return divide( *denom.value );  
+}
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
