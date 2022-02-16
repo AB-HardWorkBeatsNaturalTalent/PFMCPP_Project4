@@ -262,10 +262,15 @@ DoubleType& DoubleType::divide( const DoubleType& denom )
 
 struct IntType
 {
-    int* add( int lhs, int rhs );
-    int* subtract( int lhs, int rhs );
-    int* multiply( int lhs, int rhs );
-    int* divide( int lhs, int rhs );
+    IntType& add( int lhs, int rhs );
+    IntType& subtract( int lhs, int rhs );
+    IntType& multiply( int lhs, int rhs );
+    IntType& divide( int lhs, int rhs );
+
+    IntType& add( const IntType& toAdd );
+    IntType& subtract( const IntType& toSub );
+    IntType& multiply( const IntType& toMult );
+    IntType& divide( const IntType& denom );
 
     int* value;
     IntType( int val ) : value( new int(val) ) {}
@@ -275,35 +280,52 @@ struct IntType
     }
 };
 
-int* IntType::add(int lhs, int rhs)
+IntType& IntType::add( const IntType& toAdd )
+{
+    return add( *value, *toAdd.value );
+}
+IntType& IntType::subtract( const IntType& toSub )
+{
+    return subtract( *value, *toSub.value );
+}
+IntType& IntType::multiply( const IntType& toMult )
+{
+    return multiply( *value, *toMult.value );
+}
+IntType& IntType::divide( const IntType& denom )
+{
+    return divide( *value, *denom.value );
+}
+
+IntType& IntType::add(int lhs, int rhs)
 {
     *value = lhs + rhs;
-    return value;
+    return *this;
 } 
 
-int* IntType::subtract(int lhs, int rhs)
+IntType& IntType::subtract(int lhs, int rhs)
 {
     *value = lhs - rhs;
-    return value;
+    return *this;
 } 
 
-int* IntType::multiply(int lhs, int rhs)
+IntType& IntType::multiply(int lhs, int rhs)
 {
     *value = lhs * rhs;
-    return value;
+    return *this;
 } 
 
-int* IntType::divide(int lhs, int rhs)
+IntType& IntType::divide(int lhs, int rhs)
 {
     if(rhs == 0)
     {
         std::cout << "error, integer division by zero will crash the program!" << std::endl;
         std::cout << "returning lhs" << std::endl;
         *value = lhs;
-        return value;
+        return *this;
     }
     *value = lhs / rhs;
-    return value;
+    return *this;
 } 
 
 
