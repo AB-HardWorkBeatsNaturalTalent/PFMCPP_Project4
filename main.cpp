@@ -34,26 +34,6 @@
 
  */
 #include <iostream>
-struct FloatType;
-struct DoubleType;
-struct IntType;
-
-void part3()
-{
-    FloatType ft( 5.5f );
-    DoubleType dt( 11.1 );
-    IntType it ( 34 );
-    DoubleType pi( 3.14 );
-
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide( pi ).multiply( dt ).subtract( ft ) << std::endl;
-    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0) << std::endl;
-    
-    std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
-}
 
 /*
 your program should generate the following output EXACTLY.
@@ -137,10 +117,6 @@ struct FloatType
     FloatType& divide( float rhs );
 
     operator float(){return *value;}
-    float* value = nullptr;
-
-    //dynamic_cast attempts to convert to the specified type
-    //oeprator int()
 
     FloatType( float val ) : value( new float(val) )
     {
@@ -150,6 +126,8 @@ struct FloatType
     {
         delete value;
     }
+    private:
+        float* value = nullptr;
 };
 
 struct DoubleType
@@ -159,8 +137,8 @@ struct DoubleType
     DoubleType& multiply( double rhs );
     DoubleType& divide( double rhs );
 
-    operator double() : {return *value;}
-    double* value;
+    operator double() {return *value;}
+
 
     DoubleType( double val ) : value( new double(val) )
     {
@@ -170,6 +148,8 @@ struct DoubleType
     {
         delete value;
     }
+    private:
+        double* value;
 };
 
 struct IntType
@@ -179,13 +159,14 @@ struct IntType
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
 
-    operator int() : {return *value;}
-    int* value;
+    operator int() {return *value;}
     IntType( int val ) : value( new int(val) ) {}
     ~IntType()
     {
         delete value;
     }
+    private:
+        int* value;
 };
 
 IntType& IntType::add(int rhs)
@@ -286,8 +267,22 @@ DoubleType& DoubleType::divide(double rhs)
 
  Wait for my code review.
  */
-#include <iostream>
+void part3()
+{
+    FloatType ft( 5.5f );
+    DoubleType dt( 11.1 );
+    IntType it ( 34 );
+    DoubleType pi( 3.14 );
 
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide( pi ).multiply( dt ).subtract( ft ) << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
+    std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0) << std::endl;
+    
+    std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
+}
 int main()
 {   
     //testing instruction 0
@@ -339,6 +334,7 @@ int main()
 
     std::cout << "---------------------\n" << std::endl; 
 
+    part3();
     std::cout << "good to go!\n";
 
     return 0;
