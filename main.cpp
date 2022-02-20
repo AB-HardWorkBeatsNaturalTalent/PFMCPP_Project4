@@ -27,17 +27,6 @@ struct HeapA
     }
 };
 
-/*
-struct HeapA 
-{
-    std::unique_ptr<A> uPtrToA;
-
-    HeapA()
-    {
-        uPtrToA.reset( new A() );
-    }
-};*/
-
  /*
  1) Edit your 3 structs so that they own a heap-allocated primitive type without using smart pointers named 'value'
          IntType should own a heap-allocated int, for example.
