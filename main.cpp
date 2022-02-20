@@ -136,7 +136,11 @@ struct FloatType
     FloatType& multiply( float rhs );
     FloatType& divide( float rhs );
 
+    operator float(){return *value;}
     float* value = nullptr;
+
+    //dynamic_cast attempts to convert to the specified type
+    //oeprator int()
 
     FloatType( float val ) : value( new float(val) )
     {
@@ -155,6 +159,7 @@ struct DoubleType
     DoubleType& multiply( double rhs );
     DoubleType& divide( double rhs );
 
+    operator double() : {return *value;}
     double* value;
 
     DoubleType( double val ) : value( new double(val) )
@@ -174,6 +179,7 @@ struct IntType
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
 
+    operator int() : {return *value;}
     int* value;
     IntType( int val ) : value( new int(val) ) {}
     ~IntType()
