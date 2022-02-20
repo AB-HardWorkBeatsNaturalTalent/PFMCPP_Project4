@@ -33,6 +33,10 @@
  9) click the [run] button.  Clear up any errors or warnings as best you can.
 
  */
+#include <iostream>
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
 void part3()
 {
@@ -132,19 +136,6 @@ struct FloatType
     FloatType& multiply( float rhs );
     FloatType& divide( float rhs );
 
-    FloatType& add( const FloatType& toAdd );
-    FloatType& subtract( const FloatType& toSub );
-    FloatType& multiply( const FloatType& toMult);
-    FloatType& divide( const FloatType& denom );
-    FloatType& add( const IntType& toAdd );
-    FloatType& subtract( const IntType& toSub );
-    FloatType& multiply( const IntType& toMult);
-    FloatType& divide( const IntType& denom );
-    FloatType& add( const DoubleType& toAdd );
-    FloatType& subtract( const DoubleType& toSub );
-    FloatType& multiply( const DoubleType& toMult);
-    FloatType& divide( const DoubleType& denom );
-
     float* value = nullptr;
 
     FloatType( float val ) : value( new float(val) )
@@ -163,21 +154,6 @@ struct DoubleType
     DoubleType& subtract(double rhs );
     DoubleType& multiply( double rhs );
     DoubleType& divide( double rhs );
-
-    DoubleType& add( const DoubleType& toAdd );
-    DoubleType& subtract( const DoubleType& toSub );
-    DoubleType& multiply( const DoubleType& toMult );
-    DoubleType& divide( const DoubleType& denom );
-
-    DoubleType& add( const IntType& toAdd );
-    DoubleType& subtract( const IntType& toSub );
-    DoubleType& multiply( const IntType& toMult );
-    DoubleType& divide( const IntType& denom );
-
-    DoubleType& add( const FloatType& toAdd );
-    DoubleType& subtract( const FloatType& toSub );
-    DoubleType& multiply( const FloatType& toMult );
-    DoubleType& divide( const FloatType& denom );
 
     double* value;
 
@@ -198,21 +174,6 @@ struct IntType
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
 
-    IntType& add( const IntType& toAdd );
-    IntType& subtract( const IntType& toSub );
-    IntType& multiply( const IntType& toMult );
-    IntType& divide( const IntType& denom );
-
-    IntType& add( const FloatType& toAdd );
-    IntType& subtract( const FloatType& toSub );
-    IntType& multiply( const FloatType& toMult );
-    IntType& divide( const FloatType& denom );
-
-    IntType& add( const DoubleType& toAdd );
-    IntType& subtract( const DoubleType& toSub );
-    IntType& multiply( const DoubleType& toMult );
-    IntType& divide( const DoubleType& denom );
-
     int* value;
     IntType( int val ) : value( new int(val) ) {}
     ~IntType()
@@ -220,59 +181,6 @@ struct IntType
         delete value;
     }
 };
-
-IntType& IntType::add( const IntType& toAdd )
-{
-    return add( *toAdd.value );
-}
-IntType& IntType::subtract( const IntType& toSub )
-{
-    return subtract( *toSub.value );
-}
-IntType& IntType::multiply( const IntType& toMult )
-{
-    return multiply( *toMult.value );
-}
-IntType& IntType::divide( const IntType& denom )
-{
-    return divide( *denom.value );
-}
-
-
-IntType& IntType::add( const FloatType& toAdd )
-{
-    return add( *toAdd.value );
-}
-IntType& IntType::subtract( const FloatType& toSub )
-{
-    return subtract( *toSub.value );
-}
-IntType& IntType::multiply( const FloatType& toMult )
-{
-    return multiply( *toMult.value );
-}
-IntType& IntType::divide( const FloatType& denom )
-{
-    return divide( *denom.value );
-}
-
-
-IntType& IntType::add( const DoubleType& toAdd )
-{
-    return add( *toAdd.value );
-}
-IntType& IntType::subtract( const DoubleType& toSub )
-{
-    return subtract( *toSub.value );
-}
-IntType& IntType::multiply( const DoubleType& toMult )
-{
-    return multiply( *toMult.value );
-}
-IntType& IntType::divide( const DoubleType& denom )
-{
-    return divide( *denom.value );
-}
 
 IntType& IntType::add(int rhs)
 {
@@ -302,56 +210,6 @@ IntType& IntType::divide(int rhs)
     *value /= rhs;
     return *this;
 } 
-FloatType& FloatType::divide( const FloatType& denom )
-{
-    return divide( *denom.value );
-}
-FloatType& FloatType::add( const FloatType& toAdd )
-{
-    return add( *toAdd.value );
-}
-FloatType& FloatType::subtract( const FloatType& toSub )
-{
-    return subtract( *toSub.value);
-}
-FloatType& FloatType::multiply( const FloatType& toMult )
-{
-    return multiply( *toMult.value );
-}
-
-FloatType& FloatType::divide( const IntType& denom )
-{
-    return divide( *denom.value );
-}
-FloatType& FloatType::add( const IntType& toAdd )
-{
-    return add( *toAdd.value );
-}
-FloatType& FloatType::subtract( const IntType& toSub )
-{
-    return subtract( *toSub.value);
-}
-FloatType& FloatType::multiply( const IntType& toMult )
-{
-    return multiply( *toMult.value );
-}
-
-FloatType& FloatType::divide( const DoubleType& denom )
-{
-    return divide( *denom.value );
-}
-FloatType& FloatType::add( const DoubleType& toAdd )
-{
-    return add( *toAdd.value );
-}
-FloatType& FloatType::subtract( const DoubleType& toSub )
-{
-    return subtract( *toSub.value);
-}
-FloatType& FloatType::multiply( const DoubleType& toMult )
-{
-    return multiply( *toMult.value );
-}
 
 FloatType& FloatType::add(float rhs)
 {
@@ -409,56 +267,6 @@ DoubleType& DoubleType::divide(double rhs)
     return *this;
 }
 
-DoubleType& DoubleType::add( const DoubleType& toAdd )
-{
-    return add( *toAdd.value );
-}
-DoubleType& DoubleType::subtract( const DoubleType& toSub )
-{
-    return subtract( *toSub.value );
-}
-DoubleType& DoubleType::multiply( const DoubleType& toMult )
-{
-    return multiply( *toMult.value );  
-}
-DoubleType& DoubleType::divide( const DoubleType& denom )
-{
-    return divide( *denom.value );  
-}
-
-DoubleType& DoubleType::add( const FloatType& toAdd )
-{
-    return add( *toAdd.value );
-}
-DoubleType& DoubleType::subtract( const FloatType& toSub )
-{
-    return subtract( *toSub.value );
-}
-DoubleType& DoubleType::multiply( const FloatType& toMult )
-{
-    return multiply( *toMult.value );  
-}
-DoubleType& DoubleType::divide( const FloatType& denom )
-{
-    return divide( *denom.value );  
-}
-
-DoubleType& DoubleType::add( const IntType& toAdd )
-{
-    return add( *toAdd.value );
-}
-DoubleType& DoubleType::subtract( const IntType& toSub )
-{
-    return subtract( *toSub.value );
-}
-DoubleType& DoubleType::multiply( const IntType& toMult )
-{
-    return multiply( *toMult.value );  
-}
-DoubleType& DoubleType::divide( const IntType& denom )
-{
-    return divide( *denom.value );  
-}
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -472,47 +280,6 @@ DoubleType& DoubleType::divide( const IntType& denom )
 
  Wait for my code review.
  */
-
-/*
-int main() 
-{
-    FloatType ft();
-    std::cout << "result of ft.add(): " << *ft.add( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.subtract(): " << *ft.subtract( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.multiply(): " << *ft.multiply( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.divide(): " << *ft.divide( 123.456f, 432.1f) << std::endl;
-
-    std::cout << "result of ft.add(): " << *ft.add( 4444.56f, 0.0f)  << std::endl;
-    std::cout << "result of ft.subtract(): " << *ft.subtract( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.multiply(): " << *ft.multiply( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.divide(): " << *ft.divide( 4444.56f, 0.0f) << std::endl;
-
-    DoubleType db(new double());
-    std::cout << "result of db.add(): " << *db.add( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.subtract(): " << *db.subtract( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.multiply(): " << *db.multiply( 123.456, 432.1) << std::endl;
-    std::cout << "result of db.divide(): " << *db.divide( 123.456, 432.1) << std::endl;
-
-    std::cout << "result of db.add(): " << *db.add( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.subtract(): " << *db.subtract( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.multiply(): " << *db.multiply( 123.456, 0.0) << std::endl;
-    std::cout << "result of db.divide(): " << *db.divide( 123.456, 0.0) << std::endl;
-
-    IntType i(new int());
-    std::cout << "result of i.add(): " << *i.add( 10, 20) << std::endl;
-    std::cout << "result of i.subtract(): " << *i.subtract( 10, 20) << std::endl;
-    std::cout << "result of i.multiply(): " << *i.multiply( 10, 20) << std::endl;
-    std::cout << "result of i.divide(): " << *i.divide( 10, 20) << std::endl;
-
-    std::cout << "result of i.add(): " << *i.add( 10, 0) << std::endl;
-    std::cout << "result of i.subtract(): " << *i.subtract( 10, 0) << std::endl;
-    std::cout << "result of i.multiply(): " << *i.multiply( 10, 0) << std::endl;
-    std::cout << "result of i.divide(): " << *i.divide( 10, 0) << std::endl;
-
-    std::cout << "good to go!" << std::endl;
-}
-*/
-
 #include <iostream>
 
 int main()
