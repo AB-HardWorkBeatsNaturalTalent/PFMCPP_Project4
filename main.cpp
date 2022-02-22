@@ -296,7 +296,7 @@ struct FloatType
     }
     private:
         float* value = nullptr;
-        FloatType& powInternal();
+        FloatType& powInternal(const FloatType& b, float e);
 };
 
 struct DoubleType
@@ -324,7 +324,7 @@ struct DoubleType
     }
     private:
         double* value;
-        DoubleType& powInternal();
+        DoubleType& powInternal(const DoubleType& b, double e);
 };
 
 struct IntType
@@ -348,7 +348,7 @@ struct IntType
     }
     private:
         int* value;
-        IntType& powInternal();
+        IntType& powInternal(const IntType& b, int e);
 };
 
 IntType& IntType::add(int rhs)
@@ -424,9 +424,14 @@ FloatType& FloatType::pow(const DoubleType&)
 {
     
 }
-FloatType::powInternal()
+FloatType& FloatType::powInternal(const FloatType& base, float exp )
 {
-    
+    /*
+*val = std::pow( *val, arg );
+         where 'arg' is the passed-in type, converted to whatever type your object is holding.
+             if your UDT owns an int, then arg would be an int.
+             if your UDT owns a float, then arg would be a float.
+*/
 }
 
 DoubleType& DoubleType::add(double rhs)
