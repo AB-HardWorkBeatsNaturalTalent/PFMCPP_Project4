@@ -379,6 +379,31 @@ IntType& IntType::divide(int rhs)
     *value /= rhs;
     return *this;
 } 
+IntType& IntType::pow(float f)
+{
+    return *this;
+}
+IntType& IntType::pow(const IntType&) const
+{
+    return *this;
+}
+IntType& IntType::pow(const FloatType&) const
+{
+    return *this;
+}
+IntType& IntType::pow(const DoubleType&) const
+{
+    return *this;
+}
+IntType& IntType::powInternal(const IntType& base, int exp ) const
+{
+    /*
+*val = std::pow( *val, arg );
+         where 'arg' is the passed-in type, converted to whatever type your object is holding.
+             if your UDT owns an int, then arg would be an int.
+             if your UDT owns a float, then arg would be a float.
+*/  return *this;
+}
 
 FloatType& FloatType::add(float rhs)
 {
@@ -410,28 +435,28 @@ FloatType& FloatType::divide(float rhs)
 
 FloatType& FloatType::pow(float f)
 {
-    
+    return *this;
 }
-FloatType& FloatType::pow(const IntType&)
+FloatType& FloatType::pow(const IntType&) const
 {
-    
+    return *this;
 }
-FloatType& FloatType::pow(const FloatType&)
+FloatType& FloatType::pow(const FloatType&) const
 {
-    
+    return *this;
 }
-FloatType& FloatType::pow(const DoubleType&)
+FloatType& FloatType::pow(const DoubleType&) const
 {
-    
+    return *this;
 }
-FloatType& FloatType::powInternal(const FloatType& base, float exp )
+FloatType& FloatType::powInternal(const FloatType& base, float exp ) const
 {
     /*
 *val = std::pow( *val, arg );
          where 'arg' is the passed-in type, converted to whatever type your object is holding.
              if your UDT owns an int, then arg would be an int.
              if your UDT owns a float, then arg would be a float.
-*/
+*/  return *this;
 }
 
 DoubleType& DoubleType::add(double rhs)
@@ -459,6 +484,32 @@ DoubleType& DoubleType::divide(double rhs)
         std::cout << "warning: floating point division by zero!" << std::endl;
     }
     *value /= rhs;
+    return *this;
+}
+DoubleType& DoubleType::pow(float f)
+{
+    return *this;
+}
+DoubleType& DoubleType::pow(const IntType&) const
+{
+    return *this;
+}
+DoubleType& DoubleType::pow(const FloatType&) const
+{
+    return *this;
+}
+DoubleType& DoubleType::pow(const DoubleType&) const
+{
+    return *this;
+}
+DoubleType& DoubleType::powInternal(const DoubleType& base, double exp ) const
+{
+    /*
+*val = std::pow( *val, arg );
+         where 'arg' is the passed-in type, converted to whatever type your object is holding.
+             if your UDT owns an int, then arg would be an int.
+             if your UDT owns a float, then arg would be a float.
+*/
     return *this;
 }
 
