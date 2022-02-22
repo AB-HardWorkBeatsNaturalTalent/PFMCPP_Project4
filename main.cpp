@@ -52,11 +52,22 @@ Project 4: Part 4 / 9
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
+#include <iostream>
+#include <math.h>
+#include <cmath>
 
+struct FloatType;
+struct IntType;
+struct DoubleType;
 
 
 struct Point
 {
+    Point(IntType x, IntType y);
+    Point(FloatType x, FloatType y);
+    Point(DoubleType x, DoubleType y);
+    Point(float x, float y);
+
     Point& multiply(float m)
     {
         x *= m;
@@ -264,17 +275,11 @@ struct HeapA
 
 
 
-#include <iostream>
-#include <math.h>
-#include <cmath>
 
-struct FloatType;
-struct IntType;
-struct DoubleType;
 
 struct FloatType
 {
-    FloatType& add( float rhs );
+    explicitFloatType& add( float rhs );
     FloatType& subtract( float rhs );
     FloatType& multiply( float rhs );
     FloatType& divide( float rhs );
@@ -287,7 +292,7 @@ struct FloatType
     pow(const DoubleType&);
     
 
-    FloatType( float val ) : value( new float(val) )
+    explicit FloatType( float val ) : value( new float(val) )
     {
         
     }
@@ -315,7 +320,7 @@ struct DoubleType
     pow(const DoubleType&);
     
 
-    DoubleType( double val ) : value( new double(val) )
+    explicit DoubleType( double val ) : value( new double(val) )
     {
         
     }
@@ -342,7 +347,7 @@ struct IntType
 
 
     operator int() {return *value;}
-    IntType( int val ) : value( new int(val) ) {}
+    explicit IntType( int val ) : value( new int(val) ) {}
     ~IntType()
     {
         delete value;
