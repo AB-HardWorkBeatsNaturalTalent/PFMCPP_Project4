@@ -280,6 +280,12 @@ struct FloatType
 
     operator float(){return *value;}
 
+    pow(float f);
+    pow(const IntType&);
+    pow(const FloatType&);
+    pow(const DoubleType&);
+    powInternal();
+
     FloatType( float val ) : value( new float(val) )
     {
         
