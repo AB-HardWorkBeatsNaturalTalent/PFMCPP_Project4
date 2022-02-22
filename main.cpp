@@ -266,6 +266,7 @@ struct HeapA
 
 #include <iostream>
 #include <math.h>
+#include <cmath>
 
 struct FloatType;
 struct IntType;
@@ -397,12 +398,8 @@ IntType& IntType::pow(const DoubleType&) const
 }
 IntType& IntType::powInternal(const IntType& base, int exp ) const
 {
-    /*
-*val = std::pow( *val, arg );
-         where 'arg' is the passed-in type, converted to whatever type your object is holding.
-             if your UDT owns an int, then arg would be an int.
-             if your UDT owns a float, then arg would be a float.
-*/  return *this;
+    *base = std::pow(*base, exp );
+    return *base;
 }
 
 FloatType& FloatType::add(float rhs)
@@ -451,12 +448,8 @@ FloatType& FloatType::pow(const DoubleType&) const
 }
 FloatType& FloatType::powInternal(const FloatType& base, float exp ) const
 {
-    /*
-*val = std::pow( *val, arg );
-         where 'arg' is the passed-in type, converted to whatever type your object is holding.
-             if your UDT owns an int, then arg would be an int.
-             if your UDT owns a float, then arg would be a float.
-*/  return *this;
+    *base = std::pow(*base, exp );
+    return *base;
 }
 
 DoubleType& DoubleType::add(double rhs)
@@ -504,13 +497,8 @@ DoubleType& DoubleType::pow(const DoubleType&) const
 }
 DoubleType& DoubleType::powInternal(const DoubleType& base, double exp ) const
 {
-    /*
-*val = std::pow( *val, arg );
-         where 'arg' is the passed-in type, converted to whatever type your object is holding.
-             if your UDT owns an int, then arg would be an int.
-             if your UDT owns a float, then arg would be a float.
-*/
-    return *this;
+    *base = std::pow(*base, exp );
+    return *base;
 }
 
 
