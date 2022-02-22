@@ -284,7 +284,7 @@ struct FloatType
     pow(const IntType&);
     pow(const FloatType&);
     pow(const DoubleType&);
-    powInternal();
+    
 
     FloatType( float val ) : value( new float(val) )
     {
@@ -296,6 +296,7 @@ struct FloatType
     }
     private:
         float* value = nullptr;
+        FloatType& powInternal();
 };
 
 struct DoubleType
@@ -311,7 +312,7 @@ struct DoubleType
     pow(const IntType&);
     pow(const FloatType&);
     pow(const DoubleType&);
-    powInternal();
+    
 
     DoubleType( double val ) : value( new double(val) )
     {
@@ -323,6 +324,7 @@ struct DoubleType
     }
     private:
         double* value;
+        DoubleType& powInternal();
 };
 
 struct IntType
@@ -336,7 +338,7 @@ struct IntType
     pow(const IntType&);
     pow(const FloatType&);
     pow(const DoubleType&);
-    powInternal();
+
 
     operator int() {return *value;}
     IntType( int val ) : value( new int(val) ) {}
@@ -346,6 +348,7 @@ struct IntType
     }
     private:
         int* value;
+        IntType& powInternal();
 };
 
 IntType& IntType::add(int rhs)
