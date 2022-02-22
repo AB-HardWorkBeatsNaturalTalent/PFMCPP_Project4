@@ -307,6 +307,11 @@ struct DoubleType
 
     operator double() {return *value;}
 
+    pow(double d);
+    pow(const IntType&);
+    pow(const FloatType&);
+    pow(const DoubleType&);
+    powInternal();
 
     DoubleType( double val ) : value( new double(val) )
     {
@@ -326,6 +331,12 @@ struct IntType
     IntType& subtract( int rhs );
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
+
+    pow(int i);
+    pow(const IntType&);
+    pow(const FloatType&);
+    pow(const DoubleType&);
+    powInternal();
 
     operator int() {return *value;}
     IntType( int val ) : value( new int(val) ) {}
