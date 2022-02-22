@@ -405,6 +405,27 @@ FloatType& FloatType::divide(float rhs)
     return *this;
 } 
 
+FloatType& FloatType::pow(float f)
+{
+    
+}
+FloatType& FloatType::pow(const IntType&)
+{
+    
+}
+FloatType& FloatType::pow(const FloatType&)
+{
+    
+}
+FloatType& FloatType::pow(const DoubleType&)
+{
+    
+}
+FloatType::powInternal()
+{
+    
+}
+
 DoubleType& DoubleType::add(double rhs)
 {
     *value += rhs;
@@ -432,6 +453,7 @@ DoubleType& DoubleType::divide(double rhs)
     *value /= rhs;
     return *this;
 }
+
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
