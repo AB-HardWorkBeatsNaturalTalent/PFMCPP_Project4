@@ -63,10 +63,21 @@ struct DoubleType;
 
 struct Point
 {
-    Point(IntType x, IntType y);
-    Point(FloatType x, FloatType y);
-    Point(DoubleType x, DoubleType y);
-    Point(float x, float y);
+    explicit Point(IntType x, IntType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    {        
+    }
+
+    explicit Point(FloatType x, FloatType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    {        
+    }
+
+    explicit Point(DoubleType x, DoubleType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    {        
+    }
+
+    Point(float x, float y) : x(x), y(y)
+    {        
+    }
 
     Point& multiply(float m)
     {
@@ -74,6 +85,27 @@ struct Point
         y *= m;
         return *this;
     }
+    Point& multiply(const FloatType& m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+    Point& multiply(const IntType& m)
+    {   x *= m;
+        y *= m;
+        return *this;
+    }
+    Point& multiply(const DoubleType& m)
+    {   x *= m;
+        y *= m;
+        return *this;
+    }
+    void toString()
+    {
+        std::cout << "x,y: " << x << "," << y << std::endl;
+    }
+
 private:
     float x{0}, y{0};
 };
@@ -588,6 +620,7 @@ int main()
     std::cout << "---------------------\n" << std::endl; 
 
     part3();
+    part4();
     std::cout << "good to go!\n";
 
     return 0;
