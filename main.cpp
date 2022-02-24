@@ -56,60 +56,6 @@ Project 4: Part 4 / 9
 #include <math.h>
 #include <cmath>
 
-struct FloatType;
-struct IntType;
-struct DoubleType;
-
-
-struct Point
-{
-    explicit Point(IntType x, IntType y) : Point(static_cast<float>(x), static_cast<float>(y))
-    {        
-    }
-
-    explicit Point(FloatType x, FloatType y) : Point(static_cast<float>(x), static_cast<float>(y))
-    {        
-    }
-
-    explicit Point(DoubleType x, DoubleType y) : Point(static_cast<float>(x), static_cast<float>(y))
-    {        
-    }
-
-    Point(float x, float y) : x(x), y(y)
-    {        
-    }
-
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-    Point& multiply(const FloatType& m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-    Point& multiply(const IntType& m)
-    {   x *= m;
-        y *= m;
-        return *this;
-    }
-    Point& multiply(const DoubleType& m)
-    {   x *= m;
-        y *= m;
-        return *this;
-    }
-    void toString()
-    {
-        std::cout << "x,y: " << x << "," << y << std::endl;
-    }
-
-private:
-    float x{0}, y{0};
-};
-
 void part4()
 {
     // ------------------------------------------------------------
@@ -305,10 +251,6 @@ struct HeapA
     A* a = nullptr;
 };
 
-
-
-
-
 struct FloatType
 {
     explicitFloatType& add( float rhs );
@@ -318,10 +260,10 @@ struct FloatType
 
     operator float(){return *value;}
 
-    pow(float f);
-    pow(const IntType&);
-    pow(const FloatType&);
-    pow(const DoubleType&);
+    FloatType& pow(float f);
+    FloatType& pow(const IntType&);
+    FloatType& pow(const FloatType&);
+    FloatType& pow(const DoubleType&);
     
 
     explicit FloatType( float val ) : value( new float(val) )
@@ -346,11 +288,10 @@ struct DoubleType
 
     operator double() {return *value;}
 
-    pow(double d);
-    pow(const IntType&);
-    pow(const FloatType&);
-    pow(const DoubleType&);
-    
+    DoubleType& pow(double d);
+    DoubleType& pow(const IntType&);
+    DoubleType& pow(const FloatType&);
+    DoubleType& pow(const DoubleType&);    
 
     explicit DoubleType( double val ) : value( new double(val) )
     {
@@ -372,11 +313,10 @@ struct IntType
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
 
-    pow(int i);
-    pow(const IntType&);
-    pow(const FloatType&);
-    pow(const DoubleType&);
-
+    IntType& pow(int i);
+    IntType& pow(const IntType&);
+    IntType& pow(const FloatType&);
+    IntType& pow(const DoubleType&);
 
     operator int() {return *value;}
     explicit IntType( int val ) : value( new int(val) ) {}
@@ -538,7 +478,56 @@ DoubleType& DoubleType::powInternal(const DoubleType& base, double exp ) const
     return *base;
 }
 
+struct Point
+{
+    explicit Point(IntType xp, IntType yp) : Point(static_cast<float>(xp), static_cast<float>(yp))
+    {        
+    }
 
+    explicit Point(FloatType x, FloatType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    {        
+    }
+
+    explicit Point(DoubleType x, DoubleType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    {        
+    }
+
+    Point(float xp, float yp) : x(xp), y(yp)
+    {        
+    }
+
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+
+    Point& multiply(const FloatType& m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+    Point& multiply(const IntType& m)
+    {   x *= m;
+        y *= m;
+        return *this;
+    }
+
+    Point& multiply(const DoubleType& m)
+    {   x *= m;
+        y *= m;
+        return *this;
+    }
+    void toString()
+    {
+        std::cout << "x,y: " << x << "," << y << std::endl;
+    }
+
+private:
+    float x{0}, y{0};
+};
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
