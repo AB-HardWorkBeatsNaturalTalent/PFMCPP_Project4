@@ -66,15 +66,14 @@ struct FloatType
     FloatType& multiply( float rhs );
     FloatType& divide( float rhs );
 
-    operator float() const {return *value;}
+    operator float() const { return *value; }
 
-    FloatType& pow(float f);
-    FloatType& pow(const IntType&);
-    FloatType& pow(const FloatType&);
-    FloatType& pow(const DoubleType&);
-    
+    FloatType& pow( float f );
+    FloatType& pow( const IntType& );
+    FloatType& pow( const FloatType& );
+    FloatType& pow( const DoubleType& );    
 
-    explicit FloatType( float val = 0.0f ) : value( new float(val) )
+    explicit FloatType( float val ) : value( new float( val ) )
     {        
     }
 
@@ -85,7 +84,7 @@ struct FloatType
 
     private:
         float* value = nullptr;
-        FloatType& powInternal(const float cf);
+        FloatType& powInternal( const float exp );
 };
 
 struct DoubleType
@@ -102,17 +101,18 @@ struct DoubleType
     DoubleType& pow(const FloatType&);
     DoubleType& pow(const DoubleType&);    
 
-    explicit DoubleType( double val = 0.0) : value( new double(val) )
-    {
-        
+    explicit DoubleType( double val ) : value( new double(val) )
+    {        
     }
+
     ~DoubleType()
     {
         delete value;
     }
+
     private:
         double* value = nullptr;
-        DoubleType& powInternal(const double cd);
+        DoubleType& powInternal( const double exp );
 };
 
 struct IntType
@@ -122,42 +122,42 @@ struct IntType
     IntType& multiply( int rhs );
     IntType& divide( int rhs );
 
-    IntType& pow(int i);
-    IntType& pow(const IntType&) ;
-    IntType& pow(const FloatType&) ;
-    IntType& pow(const DoubleType&) ;
+    IntType& pow( int i );
+    IntType& pow( const IntType& ) ;
+    IntType& pow( const FloatType& ) ;
+    IntType& pow( const DoubleType& ) ;
 
-    operator int() const {return *value;}
+    operator int() const { return *value; }
 
-    explicit IntType( int val = 0) : value( new int(val) ) {}
+    explicit IntType( int val ) : value( new int( val ) ) { }
     ~IntType()
     {
         delete value;
     }
     private:
         int* value = nullptr;
-        IntType& powInternal(const int ci);
+        IntType& powInternal( const int exp );
 };
 
-IntType& IntType::add(int rhs)
+IntType& IntType::add( int rhs)
 {
     *value += rhs;
     return *this;
 } 
 
-IntType& IntType::subtract(int rhs)
+IntType& IntType::subtract( int rhs )
 {
     *value -= rhs;
     return *this;
 } 
 
-IntType& IntType::multiply(int rhs)
+IntType& IntType::multiply( int rhs )
 {
     *value *= rhs;
     return *this;
 } 
 
-IntType& IntType::divide(int rhs)
+IntType& IntType::divide( int rhs )
 {
     if(rhs == 0)
     {
@@ -167,26 +167,26 @@ IntType& IntType::divide(int rhs)
     *value /= rhs;
     return *this;
 } 
-IntType& IntType::pow(int f)
+IntType& IntType::pow( int e )
 {
-    return powInternal(*this, f);
+    return powInternal(f);
 }
-IntType& IntType::pow(const IntType& i) 
+IntType& IntType::pow( const IntType& e ) 
 {
-    return powInternal(*this, i);
+    return powInternal(i);
 }
-IntType& IntType::pow(const FloatType& f) 
+IntType& IntType::pow( const FloatType& e ) 
 {
-    return powInternal(*this, f);
+    return powInternal(static_cast<int>(e));
 }
-IntType& IntType::pow(const DoubleType& d) 
+IntType& IntType::pow( const DoubleType& e ) 
 {
-    return powInternal(*this, d);
+    return powInternal(static_cast<int>(e));
 }
-IntType& IntType::powInternal(const IntType& base, int exp ) 
+IntType& IntType::powInternal( const int e ) 
 {
-    base = std::pow(base, exp );
-    return base;
+    *value = std::pow( *value, e );
+    return *this;
 }
 
 FloatType& FloatType::add(float rhs)
@@ -217,26 +217,26 @@ FloatType& FloatType::divide(float rhs)
     return *this;
 } 
 
-FloatType& FloatType::pow(float f)
+FloatType& FloatType::pow( float e )
 {
-    return powInternal(*this, f);
+    return powInternal(e);
 }
-FloatType& FloatType::pow(const IntType&, i) 
+FloatType& FloatType::pow( const IntType& e ) 
 {
-    return powInternal(this, i);
+    return powInternal(e);
 }
-FloatType& FloatType::pow(const FloatType& f) 
+FloatType& FloatType::pow( const FloatType& e ) 
 {
-    return powInternal(*this&, f);
+    return powInternal(e);
 }
-FloatType& FloatType::pow(const DoubleType& d) 
+FloatType& FloatType::pow( const DoubleType& e ) 
 {
-    return powInternal(*this, d);
+    return powInternal(e);
 }
-FloatType& FloatType::powInternal(const FloatType& base, float exp ) 
+FloatType& FloatType::powInternal( const float e ) 
 {
-    *base = std::pow(*base, exp );
-    return *base;
+    *value = std::pow(*value, e );
+    return *this;
 }
 
 DoubleType& DoubleType::add(double rhs)
@@ -266,39 +266,39 @@ DoubleType& DoubleType::divide(double rhs)
     *value /= rhs;
     return *this;
 }
-DoubleType& DoubleType::pow(float f)
+DoubleType& DoubleType::pow( double e )
 {
-    return powInternal(this, f);
+    return powInternal(e);
 }
-DoubleType& DoubleType::pow(const IntType& i) 
+DoubleType& DoubleType::pow( const IntType& e ) 
 {
-    return powInternal(this, i);
+    return powInternal(static_cast<double>(e));
 }
-DoubleType& DoubleType::pow(const FloatType& f) 
+DoubleType& DoubleType::pow( const FloatType& e ) 
 {
-    return powInternal(this, f);
+    return powInternal(static_cast<double>(e));
 }
-DoubleType& DoubleType::pow(const DoubleType& d) 
+DoubleType& DoubleType::pow( const DoubleType& e ) 
 {
-    return powInternal(this, d);
+    return powInternal(e);
 }
-DoubleType& DoubleType::powInternal(const DoubleType& base, double exp ) 
+DoubleType& DoubleType::powInternal( const double e ) 
 {
-    *base = std::pow(*base, exp );
-    return *base;
+    *value = std::pow(*value, e );
+    return *this;
 }
 
 struct Point
 {
-    explicit Point(IntType xp, IntType yp) : Point(static_cast<float>(xp), static_cast<float>(yp))
+    Point(const IntType& xp, const IntType& yp) : x(xp), y(yp)
     {        
     }
 
-    explicit Point(FloatType x, FloatType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    Point(const FloatType& xp, const FloatType& yp) : x(xp), y(yp)
     {        
     }
 
-    explicit Point(DoubleType x, DoubleType y) : Point(static_cast<float>(x), static_cast<float>(y))
+    Point(const DoubleType& xp, const DoubleType& yp) : x(xp), y(yp) 
     {        
     }
 
