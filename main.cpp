@@ -333,7 +333,7 @@ struct Point
     }
     void toString()
     {
-        std::cout << "x,y: " << x << "," << y << std::endl;
+        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
     }
 
 private:
