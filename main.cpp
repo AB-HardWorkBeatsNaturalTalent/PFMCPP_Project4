@@ -169,11 +169,11 @@ IntType& IntType::divide( int rhs )
 } 
 IntType& IntType::pow( int e )
 {
-    return powInternal(f);
+    return powInternal(e);
 }
 IntType& IntType::pow( const IntType& e ) 
 {
-    return powInternal(i);
+    return powInternal(e);
 }
 IntType& IntType::pow( const FloatType& e ) 
 {
