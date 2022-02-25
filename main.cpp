@@ -185,7 +185,7 @@ IntType& IntType::pow( const DoubleType& e )
 }
 IntType& IntType::powInternal( const int e ) 
 {
-    *value = std::pow( *value, e );
+    *value = static_cast<int>(std::pow( *value, e ));
     return *this;
 }
 
@@ -209,10 +209,11 @@ FloatType& FloatType::multiply(float rhs)
 
 FloatType& FloatType::divide(float rhs)
 {
-    if(fabs(rhs - 0.0f) <= 0)
+    if( rhs == 0.0f )
     {
         std::cout << "warning: floating point division by zero!" << std::endl;
     }
+    
     *value /= rhs;
     return *this;
 } 
@@ -231,7 +232,7 @@ FloatType& FloatType::pow( const FloatType& e )
 }
 FloatType& FloatType::pow( const DoubleType& e ) 
 {
-    return powInternal(e);
+    return powInternal(static_cast<float>(e));
 }
 FloatType& FloatType::powInternal( const float e ) 
 {
@@ -298,7 +299,7 @@ struct Point
     {        
     }
 
-    Point(const DoubleType& xp, const DoubleType& yp) : x(xp), y(yp) 
+    Point(const DoubleType& xp, const DoubleType& yp) : x(static_cast<float>(xp)), y(static_cast<float>(yp)) 
     {        
     }
 
@@ -326,8 +327,8 @@ struct Point
     }
 
     Point& multiply(const DoubleType& m)
-    {   x *= m;
-        y *= m;
+    {   x *= static_cast<float>(m);
+        y *= static_cast<float>(m);
         return *this;
     }
     void toString()
