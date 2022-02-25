@@ -85,7 +85,7 @@ struct FloatType
 
     private:
         float* value = nullptr;
-        FloatType& powInternal(const FloatType& b, float e);
+        FloatType& powInternal(const float cf);
 };
 
 struct DoubleType
@@ -111,8 +111,8 @@ struct DoubleType
         delete value;
     }
     private:
-        double* value;
-        DoubleType& powInternal(const DoubleType& b, double e);
+        double* value = nullptr;
+        DoubleType& powInternal(const double cd);
 };
 
 struct IntType
@@ -135,8 +135,8 @@ struct IntType
         delete value;
     }
     private:
-        int* value;
-        IntType& powInternal(const IntType& b, int e);
+        int* value = nullptr;
+        IntType& powInternal(const int ci);
 };
 
 IntType& IntType::add(int rhs)
