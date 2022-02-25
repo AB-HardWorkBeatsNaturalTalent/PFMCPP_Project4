@@ -53,8 +53,8 @@ Project 4: Part 4 / 9
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
 #include <iostream>
-#include <math.h>
 #include <cmath>
+
 struct FloatType;
 struct IntType;
 struct DoubleType;
@@ -66,7 +66,7 @@ struct FloatType
     FloatType& multiply( float rhs );
     FloatType& divide( float rhs );
 
-    operator float(){return *value;}
+    operator float() const {return *value;}
 
     FloatType& pow(float f);
     FloatType& pow(const IntType&);
@@ -74,7 +74,7 @@ struct FloatType
     FloatType& pow(const DoubleType&);
     
 
-    explicit FloatType( float val ) : value( new float(val) )
+    explicit FloatType( float val = 0.0f ) : value( new float(val) )
     {        
     }
 
@@ -95,14 +95,14 @@ struct DoubleType
     DoubleType& multiply( double rhs );
     DoubleType& divide( double rhs );
 
-    operator double() {return *value;}
+    operator double() const {return *value;}
 
     DoubleType& pow(double d);
     DoubleType& pow(const IntType&);
     DoubleType& pow(const FloatType&);
     DoubleType& pow(const DoubleType&);    
 
-    explicit DoubleType( double val ) : value( new double(val) )
+    explicit DoubleType( double val = 0.0) : value( new double(val) )
     {
         
     }
@@ -127,8 +127,9 @@ struct IntType
     IntType& pow(const FloatType&) ;
     IntType& pow(const DoubleType&) ;
 
-    operator int() {return *value;}
-    explicit IntType( int val ) : value( new int(val) ) {}
+    operator int() const {return *value;}
+
+    explicit IntType( int val = 0) : value( new int(val) ) {}
     ~IntType()
     {
         delete value;
@@ -170,7 +171,7 @@ IntType& IntType::pow(int f)
 {
     return powInternal(*this, f);
 }
-IntType& IntType::pow(*const IntType& i) 
+IntType& IntType::pow(const IntType& i) 
 {
     return powInternal(*this, i);
 }
