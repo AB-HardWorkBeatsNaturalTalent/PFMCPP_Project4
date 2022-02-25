@@ -52,21 +52,293 @@ Project 4: Part 4 / 9
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
+#include <iostream>
+#include <cmath>
 
+struct FloatType;
+struct IntType;
+struct DoubleType;
 
+struct FloatType
+{
+    FloatType& add( float rhs );
+    FloatType& subtract( float rhs );
+    FloatType& multiply( float rhs );
+    FloatType& divide( float rhs );
+
+    operator float() const { return *value; }
+
+    FloatType& pow( float f );
+    FloatType& pow( const IntType& );
+    FloatType& pow( const FloatType& );
+    FloatType& pow( const DoubleType& );    
+
+    explicit FloatType( float val ) : value( new float( val ) )
+    {        
+    }
+
+    ~FloatType()
+    {
+        delete value;
+    }
+
+    private:
+        float* value = nullptr;
+        FloatType& powInternal( const float exp );
+};
+
+struct DoubleType
+{
+    DoubleType& add( double rhs );
+    DoubleType& subtract(double rhs );
+    DoubleType& multiply( double rhs );
+    DoubleType& divide( double rhs );
+
+    operator double() const {return *value;}
+
+    DoubleType& pow(double d);
+    DoubleType& pow(const IntType&);
+    DoubleType& pow(const FloatType&);
+    DoubleType& pow(const DoubleType&);    
+
+    explicit DoubleType( double val ) : value( new double(val) )
+    {        
+    }
+
+    ~DoubleType()
+    {
+        delete value;
+    }
+
+    private:
+        double* value = nullptr;
+        DoubleType& powInternal( const double exp );
+};
+
+struct IntType
+{
+    IntType& add( int rhs );
+    IntType& subtract( int rhs );
+    IntType& multiply( int rhs );
+    IntType& divide( int rhs );
+
+    IntType& pow( int i );
+    IntType& pow( const IntType& ) ;
+    IntType& pow( const FloatType& ) ;
+    IntType& pow( const DoubleType& ) ;
+
+    operator int() const { return *value; }
+
+    explicit IntType( int val ) : value( new int( val ) ) { }
+    ~IntType()
+    {
+        delete value;
+    }
+    private:
+        int* value = nullptr;
+        IntType& powInternal( const int exp );
+};
+
+IntType& IntType::add( int rhs)
+{
+    *value += rhs;
+    return *this;
+} 
+
+IntType& IntType::subtract( int rhs )
+{
+    *value -= rhs;
+    return *this;
+} 
+
+IntType& IntType::multiply( int rhs )
+{
+    *value *= rhs;
+    return *this;
+} 
+
+IntType& IntType::divide( int rhs )
+{
+    if(rhs == 0)
+    {
+        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
+        return *this;
+    }
+    *value /= rhs;
+    return *this;
+} 
+IntType& IntType::pow( int e )
+{
+    return powInternal(e);
+}
+IntType& IntType::pow( const IntType& e ) 
+{
+    return powInternal(e);
+}
+IntType& IntType::pow( const FloatType& e ) 
+{
+    return powInternal(static_cast<int>(e));
+}
+IntType& IntType::pow( const DoubleType& e ) 
+{
+    return powInternal(static_cast<int>(e));
+}
+IntType& IntType::powInternal( const int e ) 
+{
+    *value = static_cast<int>(std::pow( *value, e ));
+    return *this;
+}
+
+FloatType& FloatType::add(float rhs)
+{
+    *value += rhs;
+    return *this;
+} 
+
+FloatType& FloatType::subtract(float rhs)
+{
+    *value -= rhs;
+    return *this;
+} 
+
+FloatType& FloatType::multiply(float rhs)
+{
+    *value *= rhs;
+    return *this;
+} 
+
+FloatType& FloatType::divide(float rhs)
+{
+    if( rhs == 0.0f )
+    {
+        std::cout << "warning: floating point division by zero!" << std::endl;
+    }
+    
+    *value /= rhs;
+    return *this;
+} 
+
+FloatType& FloatType::pow( float e )
+{
+    return powInternal(e);
+}
+FloatType& FloatType::pow( const IntType& e ) 
+{
+    return powInternal(e);
+}
+FloatType& FloatType::pow( const FloatType& e ) 
+{
+    return powInternal(e);
+}
+FloatType& FloatType::pow( const DoubleType& e ) 
+{
+    return powInternal(static_cast<float>(e));
+}
+FloatType& FloatType::powInternal( const float e ) 
+{
+    *value = std::pow(*value, e );
+    return *this;
+}
+
+DoubleType& DoubleType::add(double rhs)
+{
+    *value += rhs;
+    return *this;
+} 
+
+DoubleType& DoubleType::subtract(double rhs)
+{
+    *value -= rhs;
+    return *this;
+} 
+
+DoubleType& DoubleType::multiply(double rhs)
+{
+    *value *= rhs;
+    return *this;
+} 
+
+DoubleType& DoubleType::divide(double rhs)
+{
+    if(fabs(rhs - 0) <= 0)
+    {
+        std::cout << "warning: floating point division by zero!" << std::endl;
+    }
+    *value /= rhs;
+    return *this;
+}
+DoubleType& DoubleType::pow( double e )
+{
+    return powInternal(e);
+}
+DoubleType& DoubleType::pow( const IntType& e ) 
+{
+    return powInternal(static_cast<double>(e));
+}
+DoubleType& DoubleType::pow( const FloatType& e ) 
+{
+    return powInternal(static_cast<double>(e));
+}
+DoubleType& DoubleType::pow( const DoubleType& e ) 
+{
+    return powInternal(e);
+}
+DoubleType& DoubleType::powInternal( const double e ) 
+{
+    *value = std::pow(*value, e );
+    return *this;
+}
 
 struct Point
 {
+    Point(const IntType& xp, const IntType& yp) : x(xp), y(yp)
+    {        
+    }
+
+    Point(const FloatType& xp, const FloatType& yp) : x(xp), y(yp)
+    {        
+    }
+
+    Point(const DoubleType& xp, const DoubleType& yp) : x(static_cast<float>(xp)), y(static_cast<float>(yp)) 
+    {        
+    }
+
+    Point(float xp, float yp) : x(xp), y(yp)
+    {        
+    }
+
     Point& multiply(float m)
     {
         x *= m;
         y *= m;
         return *this;
     }
+
+    Point& multiply(const FloatType& m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+    Point& multiply(const IntType& m)
+    {   x *= m;
+        y *= m;
+        return *this;
+    }
+
+    Point& multiply(const DoubleType& m)
+    {   x *= static_cast<float>(m);
+        y *= static_cast<float>(m);
+        return *this;
+    }
+    void toString()
+    {
+        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+    }
+
 private:
     float x{0}, y{0};
 };
-
 void part4()
 {
     // ------------------------------------------------------------
@@ -262,160 +534,6 @@ struct HeapA
     A* a = nullptr;
 };
 
-
-
-#include <iostream>
-#include <math.h>
-
-struct FloatType;
-struct IntType;
-struct DoubleType;
-
-struct FloatType
-{
-    FloatType& add( float rhs );
-    FloatType& subtract( float rhs );
-    FloatType& multiply( float rhs );
-    FloatType& divide( float rhs );
-
-    operator float(){return *value;}
-
-    FloatType( float val ) : value( new float(val) )
-    {
-        
-    }
-    ~FloatType()
-    {
-        delete value;
-    }
-    private:
-        float* value = nullptr;
-};
-
-struct DoubleType
-{
-    DoubleType& add( double rhs );
-    DoubleType& subtract(double rhs );
-    DoubleType& multiply( double rhs );
-    DoubleType& divide( double rhs );
-
-    operator double() {return *value;}
-
-
-    DoubleType( double val ) : value( new double(val) )
-    {
-        
-    }
-    ~DoubleType()
-    {
-        delete value;
-    }
-    private:
-        double* value;
-};
-
-struct IntType
-{
-    IntType& add( int rhs );
-    IntType& subtract( int rhs );
-    IntType& multiply( int rhs );
-    IntType& divide( int rhs );
-
-    operator int() {return *value;}
-    IntType( int val ) : value( new int(val) ) {}
-    ~IntType()
-    {
-        delete value;
-    }
-    private:
-        int* value;
-};
-
-IntType& IntType::add(int rhs)
-{
-    *value += rhs;
-    return *this;
-} 
-
-IntType& IntType::subtract(int rhs)
-{
-    *value -= rhs;
-    return *this;
-} 
-
-IntType& IntType::multiply(int rhs)
-{
-    *value *= rhs;
-    return *this;
-} 
-
-IntType& IntType::divide(int rhs)
-{
-    if(rhs == 0)
-    {
-        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
-        return *this;
-    }
-    *value /= rhs;
-    return *this;
-} 
-
-FloatType& FloatType::add(float rhs)
-{
-    *value += rhs;
-    return *this;
-} 
-
-FloatType& FloatType::subtract(float rhs)
-{
-    *value -= rhs;
-    return *this;
-} 
-
-FloatType& FloatType::multiply(float rhs)
-{
-    *value *= rhs;
-    return *this;
-} 
-
-FloatType& FloatType::divide(float rhs)
-{
-    if(fabs(rhs - 0.0f) <= 0)
-    {
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    }
-    *value /= rhs;
-    return *this;
-} 
-
-DoubleType& DoubleType::add(double rhs)
-{
-    *value += rhs;
-    return *this;
-} 
-
-DoubleType& DoubleType::subtract(double rhs)
-{
-    *value -= rhs;
-    return *this;
-} 
-
-DoubleType& DoubleType::multiply(double rhs)
-{
-    *value *= rhs;
-    return *this;
-} 
-
-DoubleType& DoubleType::divide(double rhs)
-{
-    if(fabs(rhs - 0) <= 0)
-    {
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    }
-    *value /= rhs;
-    return *this;
-}
-
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -497,6 +615,7 @@ int main()
     std::cout << "---------------------\n" << std::endl; 
 
     part3();
+    part4();
     std::cout << "good to go!\n";
 
     return 0;
