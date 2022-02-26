@@ -585,11 +585,12 @@ void part3()
         //static_cast<int>(it.divide( static_cast<int>(pi) ).multiply( static_cast<int>(dt) ).subtract( static_cast<int>(ft) ))
         it
         << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
     it *= it;
     it /= 0;
     it /= 0.0f;
     it /= 0.0;
-    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
+
     std::cout << it << std::endl;
 
     it *= static_cast<int>(ft);
@@ -632,7 +633,7 @@ int main()
     std::cout << "IntType subtract result=" << it << std::endl;
     it *= 2;
     std::cout << "IntType multiply result=" << it << std::endl;
-    it /= 2;
+    it /= 3;
     std::cout << "IntType divide result=" << it << std::endl << std::endl;
     it *= 1000;
     it /= 2;
@@ -665,13 +666,21 @@ int main()
     // Intercept division by 0
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
-    it /= 0;
-    std::cout << "New value of it = it / 0 = " << it << std::endl;
+    
+   
+    std::cout << "New value of it = it / 0 = ";
+    it /= 0;    
+    std::cout << it << std::endl;
+    
+    std::cout << "New value of ft = ft / 0 = ";
     ft /= 0;
-    std::cout << "New value of ft = ft / 0 = " << ft << std::endl;
+    std::cout << ft << std::endl;
+    
+  
+    std::cout << "New value of dt = dt / 0 = ";
     dt /= 0;
-    std::cout << "New value of dt = dt / 0 = " << dt << std::endl;
-
+    std::cout << dt << std::endl;
+    
     std::cout << "---------------------\n" << std::endl; 
 
     part3();
