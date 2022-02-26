@@ -226,6 +226,9 @@ struct FloatType
     FloatType& pow( const FloatType& );
     FloatType& pow( const DoubleType& );    
 
+    FloatType& apply();
+    FloatType& apply();
+
     explicit FloatType( float val ) : value( new float( val ) )
     {        
     }
@@ -252,7 +255,10 @@ struct DoubleType
     DoubleType& pow(double d);
     DoubleType& pow(const IntType&);
     DoubleType& pow(const FloatType&);
-    DoubleType& pow(const DoubleType&);    
+    DoubleType& pow(const DoubleType&);  
+
+    DoubleType& apply();
+    DoubleType& apply();
 
     explicit DoubleType( double val ) : value( new double(val) )
     {        
@@ -279,6 +285,9 @@ struct IntType
     IntType& pow( const IntType& ) ;
     IntType& pow( const FloatType& ) ;
     IntType& pow( const DoubleType& ) ;
+
+    IntType& apply();
+    IntType& apply();
 
     operator int() const { return *value; }
 
