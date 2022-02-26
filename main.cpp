@@ -578,9 +578,9 @@ void part3()
         dt
         << std::endl;
 
-    it /= pi;
-    it *= dt;
-    it -= ft;
+    it /= static_cast<int>(pi);
+    it *= static_cast<int>(dt);
+    it -= static_cast<int>(ft);
     std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << 
         //static_cast<int>(it.divide( static_cast<int>(pi) ).multiply( static_cast<int>(dt) ).subtract( static_cast<int>(ft) ))
         it
@@ -590,24 +590,15 @@ void part3()
     it /= 0.0f;
     it /= 0.0;
     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << 
-        //it.multiply(it).divide(0).divide(0.0f).divide(0.0)
-        it
-        << std::endl;
+    std::cout << it << std::endl;
 
-    it *= ft;
-    std::cout << "FloatType x IntType  =  " << 
-        //it.multiply( static_cast<int>(ft) )
-        it
-        << std::endl;
+    it *= static_cast<int>(ft);
+    std::cout << "FloatType x IntType  =  " << it << std::endl;
 
     it += static_cast<int>(dt);
     it += static_cast<int>(ft);
     it *= 24;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << 
-        it
-        //it.add( static_cast<int>(dt) ).add( static_cast<int>(ft) ).multiply( 24 )
-        << std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it << std::endl;
 }
 int main()
 {   
