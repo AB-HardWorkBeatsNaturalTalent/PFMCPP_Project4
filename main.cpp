@@ -232,15 +232,16 @@ struct Numeric
 
     explicit Numeric( float val ) : value( new float( val ) )
     {        
-        value.reset();
+        value.reset(new float(val));
     }
 
     ~Numeric()
     {
+        value.reset(nullptr);
     }
 
     private:
-        std::unique_ptr<float> value = nullptr;
+        std::unique_ptr<float> value;
         Numeric& powInternal( const float exp );
 };
 Numeric
