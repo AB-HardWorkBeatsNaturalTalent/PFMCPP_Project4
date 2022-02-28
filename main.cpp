@@ -213,18 +213,16 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 template<typename MyTypeName> 
 struct Numeric
 {
-    using Type = MyTypeName;//treat as static member var
+    using Type = MyTypeName;//treat as static
 
-    Numeric& operator+=( Type rhs );
-    Numeric& operator-=( Type rhs );
-    Numeric& operator*=( Type rhs );
-    Numeric& operator/=( Type rhs );
+    Numeric& operator+=( const Type& rhs );
+    Numeric& operator-=( const Type& rhs );
+    Numeric& operator*=( const Type& rhs );
+    Numeric& operator/=( const Type& rhs );
 
-    operator Type() const { return *value; } //? how about here
+    operator Type() const { return *value; } 
 
-    Numeric& pow( Type f );
-    Numeric& pow( const Numeric& );
-    Numeric& pow( const Numeric& );
+    Numeric& pow( const Type& f );
     Numeric& pow( const Numeric& );    
 
     Numeric& apply(std::function<Numeric&(Type&)> func); 
@@ -243,26 +241,25 @@ struct Numeric
         std::unique_ptr<Type> value;
         Numeric& powInternal( const Type exp );
 };
-Numeric
-Numeric& Numeric::operator+=(Type rhs)
+Numeric& Numeric::operator+=(Type& rhs)
 {
     *value += rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator-=(Type rhs)
+Numeric& Numeric::operator-=(Type& rhs)
 {
     *value -= rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator*=(Type rhs)
+Numeric& Numeric::operator*=(Type& rhs)
 {
     *value *= rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator/=(Type rhs)
+Numeric& Numeric::operator/=(Type& rhs)
 {
     if( rhs == 0.0f )
     {
@@ -273,7 +270,7 @@ Numeric& Numeric::operator/=(Type rhs)
     return *this;
 } 
 
-Numeric& Numeric::pow( Type e )
+Numeric& Numeric::pow( const Type& e )
 {
     return powInternal(e);
 }
@@ -289,7 +286,7 @@ Numeric& Numeric::pow( const Numeric& e )
 {
     return powInternal(static_cast<Type>(e));
 }
-Numeric& Numeric::powInternal( const Type e ) 
+Numeric& Numeric::powInternal( const Type& e ) 
 {
     *value = std::pow(*value, e );
     return *this;
