@@ -230,9 +230,8 @@ struct Numeric
     Numeric& apply(std::function<Numeric&(Type&)> func); 
     Numeric& apply(void(*)(Type&));
 
-    explicit Numeric( Type val ) : value( new Type( val ) )
+    explicit Numeric( Type val ) : value( std::make_unique<Type>(val) )
     {        
-        value.reset(new Type(val));
     }
 
     ~Numeric()
