@@ -210,60 +210,58 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath>
 #include <functional>
 
-struct FloatType;
-struct IntType;
-struct DoubleType;
+struct Numeric;
 
-struct FloatType
+struct Numeric
 {
-    FloatType& operator+=( float rhs );
-    FloatType& operator-=( float rhs );
-    FloatType& operator*=( float rhs );
-    FloatType& operator/=( float rhs );
+    Numeric& operator+=( float rhs );
+    Numeric& operator-=( float rhs );
+    Numeric& operator*=( float rhs );
+    Numeric& operator/=( float rhs );
 
     operator float() const { return *value; }
 
-    FloatType& pow( float f );
-    FloatType& pow( const IntType& );
-    FloatType& pow( const FloatType& );
-    FloatType& pow( const DoubleType& );    
+    Numeric& pow( float f );
+    Numeric& pow( const IntType& );
+    Numeric& pow( const Numeric& );
+    Numeric& pow( const DoubleType& );    
 
-    FloatType& apply(std::function<FloatType&(float&)> func); 
-    FloatType& apply(void(*)(float&));
+    Numeric& apply(std::function<Numeric&(float&)> func); 
+    Numeric& apply(void(*)(float&));
 
-    explicit FloatType( float val ) : value( new float( val ) )
+    explicit Numeric( float val ) : value( new float( val ) )
     {        
     }
 
-    ~FloatType()
+    ~Numeric()
     {
         delete value;
     }
 
     private:
         float* value = nullptr;
-        FloatType& powInternal( const float exp );
+        Numeric& powInternal( const float exp );
 };
-
-FloatType& FloatType::operator+=(float rhs)
+Numeric
+Numeric& Numeric::operator+=(float rhs)
 {
     *value += rhs;
     return *this;
 } 
 
-FloatType& FloatType::operator-=(float rhs)
+Numeric& Numeric::operator-=(float rhs)
 {
     *value -= rhs;
     return *this;
 } 
 
-FloatType& FloatType::operator*=(float rhs)
+Numeric& Numeric::operator*=(float rhs)
 {
     *value *= rhs;
     return *this;
 } 
 
-FloatType& FloatType::operator/=(float rhs)
+Numeric& Numeric::operator/=(float rhs)
 {
     if( rhs == 0.0f )
     {
@@ -274,28 +272,28 @@ FloatType& FloatType::operator/=(float rhs)
     return *this;
 } 
 
-FloatType& FloatType::pow( float e )
+Numeric& Numeric::pow( float e )
 {
     return powInternal(e);
 }
-FloatType& FloatType::pow( const IntType& e ) 
+Numeric& Numeric::pow( const IntType& e ) 
 {
     return powInternal(e);
 }
-FloatType& FloatType::pow( const FloatType& e ) 
+Numeric& Numeric::pow( const Numeric& e ) 
 {
     return powInternal(e);
 }
-FloatType& FloatType::pow( const DoubleType& e ) 
+Numeric& Numeric::pow( const DoubleType& e ) 
 {
     return powInternal(static_cast<float>(e));
 }
-FloatType& FloatType::powInternal( const float e ) 
+Numeric& Numeric::powInternal( const float e ) 
 {
     *value = std::pow(*value, e );
     return *this;
 }
-FloatType& FloatType::apply(std::function<FloatType&(float&)> func)
+Numeric& Numeric::apply(std::function<Numeric&(float&)> func)
 {
     if(func)
     {
@@ -303,7 +301,7 @@ FloatType& FloatType::apply(std::function<FloatType&(float&)> func)
     }
     return *this;
 }
-FloatType& FloatType::apply(void(*func)(float&))
+Numeric& Numeric::apply(void(*func)(float&))
 {
     if(func)
     {
@@ -318,7 +316,7 @@ struct Point
     {        
     }
 
-    Point(const FloatType& xp, const FloatType& yp) : x(xp), y(yp)
+    Point(const Numeric& xp, const Numeric& yp) : x(xp), y(yp)
     {        
     }
 
@@ -337,7 +335,7 @@ struct Point
         return *this;
     }
 
-    Point& multiply(const FloatType& m)
+    Point& multiply(const Numeric& m)
     {
         x *= m;
         y *= m;
@@ -367,14 +365,14 @@ void part4()
     // ------------------------------------------------------------
     //                          Power tests
     // ------------------------------------------------------------
-    FloatType ft1(2);
+    Numeric ft1(2);
     DoubleType dt1(2);
     IntType it1(2);    
     float floatExp = 2.0f;
     double doubleExp = 2.0;
     int intExp = 2;
     IntType itExp(2);
-    FloatType ftExp(2.0f);
+    Numeric ftExp(2.0f);
     DoubleType dtExp(2.0);
     
     // Power tests with FloatType
@@ -404,7 +402,7 @@ void part4()
     // ------------------------------------------------------------
     //                          Point tests
     // ------------------------------------------------------------
-    FloatType ft2(3.0f);
+    Numeric ft2(3.0f);
     DoubleType dt2(4.0);
     IntType it2(5);
     float floatMul = 6.0f;
@@ -537,7 +535,7 @@ struct HeapA
  */
 void part3()
 {
-    FloatType ft( 5.5f );
+    Numeric ft( 5.5f );
     DoubleType dt( 11.1 );
     IntType it ( 34 );
     DoubleType pi( 3.14 );
@@ -635,7 +633,7 @@ int main()
     HeapA heapA; 
 
     //assign heap primitives
-    FloatType ft ( 2.0f );
+    Numeric ft ( 2.0f );
     DoubleType dt ( 2 );
     IntType it ( 2 ) ;
 
