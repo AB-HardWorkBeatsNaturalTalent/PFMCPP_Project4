@@ -213,22 +213,61 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 template<typename MyTypeName> 
 struct Numeric
 {
-    using Type = MyTypeName;//treat as static
+    using Type = MyTypeName;//treat as static?
 
-    Numeric& operator+=( const Type& rhs );
-    Numeric& operator-=( const Type& rhs );
-    Numeric& operator*=( const Type& rhs );
-    Numeric& operator/=( const Type& rhs );
+    Numeric& operator+=( const Type& rhs )
+    {
+        *value += rhs;
+        return *this;
+    }
+    Numeric& operator-=( const Type& rhs )
+    {
+        *value -= rhs;
+        return *this;
+    }
+    Numeric& operator*=( const Type& rhs )
+    {
+        *value *= rhs;
+        return *this;
+    }
 
-    operator Type() const { return *value; } 
+    Numeric& operator/=( const Type& rhs )
+    {
+        if( rhs == 0.0f )
+        {
+        std::cout << "warning: floating point division by zero!" << std::endl;
+        }    
+        *value /= rhs;
+        return *this;
+    }
+
+    operator Type() { return *value; } 
 
     Numeric& pow( const Type& f );
     Numeric& pow( const Numeric& );    
 
-    Numeric& apply(std::function<Numeric&(Type&)> func); 
-    Numeric& apply(void(*)(Type&));
+    Numeric& apply( std::function<Numeric&( std::unique_ptr<Type>& )> func )
+    {
+        std::cout <<"std::function<>" << std::endl;
+        if(func) //if the function is not null
+        {
+            return f(value); //return the output of the function at our value
+        }
+        return *this; 
+    }
 
-    explicit Numeric( Type val ) : value( std::make_unique<Type>(val) )
+    
+    Numeric& apply( void(*f)( std::unique_ptr<Type>& ) )
+    {
+        std::cout << "free function" << std::endl;
+        if( f )
+        {
+            f(value);
+        }
+        return *this;
+    }
+
+    Numeric( Type val ) : value( std::make_unique<Type>( val ) )
     {        
     }
 
@@ -239,36 +278,8 @@ struct Numeric
 
     private:
         std::unique_ptr<Type> value;
-        Numeric& powInternal( const Type exp );
+        Numeric& powInternal( const Type& exp );
 };
-Numeric& Numeric::operator+=(Type& rhs)
-{
-    *value += rhs;
-    return *this;
-} 
-
-Numeric& Numeric::operator-=(Type& rhs)
-{
-    *value -= rhs;
-    return *this;
-} 
-
-Numeric& Numeric::operator*=(Type& rhs)
-{
-    *value *= rhs;
-    return *this;
-} 
-
-Numeric& Numeric::operator/=(Type& rhs)
-{
-    if( rhs == 0.0f )
-    {
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    }
-    
-    *value /= rhs;
-    return *this;
-} 
 
 Numeric& Numeric::pow( const Type& e )
 {
@@ -444,6 +455,12 @@ void myIntFreeFunct(int& i)
     i += 5;
 }
 
+template<double>
+void myNumericFreeFunct(const Numeric&)
+{
+    
+}
+
 
 // void part6()
 // {
@@ -564,16 +581,20 @@ void part3()
 }
 void part7()
 {
-    Numeric ft3(3.0f);
-    Numeric dt3(4.0);
-    Numeric it3(5);
+    Numeric<float> ft3(3.0f);
+    Numeric<double> dt3(4.0);
+    Numeric<int> it3(5);
     
     std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
 
     {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
+        using Type = decltype(ft3)::Type;
+        ft3.apply( [&ft3](std::unique_ptr<NumericType>& ui) -> ReturnType& 
+        {
+            *ui = *ui * *ui;
+            return ui;
+        } ); //TODO
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
