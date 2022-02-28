@@ -209,6 +209,7 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <iostream>
 #include <cmath>
 #include <functional>
+#include <memory>
 
 struct Numeric;
 
@@ -231,15 +232,15 @@ struct Numeric
 
     explicit Numeric( float val ) : value( new float( val ) )
     {        
+        value.reset();
     }
 
     ~Numeric()
     {
-        delete value;
     }
 
     private:
-        float* value = nullptr;
+        std::unique_ptr<float> value = nullptr;
         Numeric& powInternal( const float exp );
 };
 Numeric
