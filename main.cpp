@@ -211,8 +211,8 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <functional>
 #include <memory>
 
-struct Numeric;
 
+template<typename T> //need to go back to vids.
 struct Numeric
 {
     Numeric& operator+=( float rhs );
