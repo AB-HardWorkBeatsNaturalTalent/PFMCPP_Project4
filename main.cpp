@@ -280,10 +280,6 @@ Numeric& Numeric::pow( const Numeric& e )
 }
 Numeric& Numeric::pow( const Numeric& e ) 
 {
-    return powInternal(e);
-}
-Numeric& Numeric::pow( const Numeric& e ) 
-{
     return powInternal(static_cast<Type>(e));
 }
 Numeric& Numeric::powInternal( const Type& e ) 
