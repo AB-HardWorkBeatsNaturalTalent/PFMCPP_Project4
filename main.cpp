@@ -78,7 +78,6 @@ Templates and Containers
 If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
 */
 
-#include <iostream>
 
 
 /*
@@ -212,7 +211,7 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <memory>
 
 
-template<typename T> //need to go back to vids.
+template<typename Type> //need to go back to vids.
 struct Numeric
 {
     Numeric& operator+=( float rhs );
@@ -222,17 +221,17 @@ struct Numeric
 
     operator float() const { return *value; }
 
-    Numeric& pow( float f );
-    Numeric& pow( const IntType& );
+    Numeric& pow( Type f );
     Numeric& pow( const Numeric& );
-    Numeric& pow( const DoubleType& );    
+    Numeric& pow( const Numeric& );
+    Numeric& pow( const Numeric& );    
 
-    Numeric& apply(std::function<Numeric&(float&)> func); 
-    Numeric& apply(void(*)(float&));
+    Numeric& apply(std::function<Numeric&(Type&)> func); 
+    Numeric& apply(void(*)(Type&));
 
-    explicit Numeric( float val ) : value( new float( val ) )
+    explicit Numeric( Type val ) : value( new Type( val ) )
     {        
-        value.reset(new float(val));
+        value.reset(new Type(val));
     }
 
     ~Numeric()
@@ -241,7 +240,7 @@ struct Numeric
     }
 
     private:
-        std::unique_ptr<float> value;
+        std::unique_ptr<Type> value;
         Numeric& powInternal( const float exp );
 };
 Numeric
@@ -314,15 +313,11 @@ Numeric& Numeric::apply(void(*func)(float&))
 
 struct Point
 {
-    Point(const IntType& xp, const IntType& yp) : x(xp), y(yp)
-    {        
-    }
-
     Point(const Numeric& xp, const Numeric& yp) : x(xp), y(yp)
     {        
     }
 
-    Point(const DoubleType& xp, const DoubleType& yp) : x(static_cast<float>(xp)), y(static_cast<float>(yp)) 
+    Point(const Numeric& xp, const Numeric& yp) : x(static_cast<float>(xp)), y(static_cast<float>(yp)) 
     {        
     }
 
@@ -343,13 +338,8 @@ struct Point
         y *= m;
         return *this;
     }
-    Point& multiply(const IntType& m)
-    {   x *= m;
-        y *= m;
-        return *this;
-    }
 
-    Point& multiply(const DoubleType& m)
+    Point& multiply(const Numeric& m)
     {   x *= static_cast<float>(m);
         y *= static_cast<float>(m);
         return *this;
@@ -368,14 +358,14 @@ void part4()
     //                          Power tests
     // ------------------------------------------------------------
     Numeric ft1(2);
-    DoubleType dt1(2);
-    IntType it1(2);    
+    Numeric dt1(2);
+    Numeric it1(2);    
     float floatExp = 2.0f;
     double doubleExp = 2.0;
     int intExp = 2;
-    IntType itExp(2);
+    Numeric itExp(2);
     Numeric ftExp(2.0f);
-    DoubleType dtExp(2.0);
+    Numeric dtExp(2.0);
     
     // Power tests with FloatType
     std::cout << "Power tests with FloatType " << std::endl;
@@ -405,8 +395,8 @@ void part4()
     //                          Point tests
     // ------------------------------------------------------------
     Numeric ft2(3.0f);
-    DoubleType dt2(4.0);
-    IntType it2(5);
+    Numeric dt2(4.0);
+    Numeric it2(5);
     float floatMul = 6.0f;
 
     // Point tests with float
@@ -538,9 +528,9 @@ struct HeapA
 void part3()
 {
     Numeric ft( 5.5f );
-    DoubleType dt( 11.1 );
-    IntType it ( 34 );
-    DoubleType pi( 3.14 );
+    Numeric dt( 11.1 );
+    Numeric it ( 34 );
+    Numeric pi( 3.14 );
 
     ft *= ft;
     ft *= ft;
@@ -636,8 +626,8 @@ int main()
 
     //assign heap primitives
     Numeric ft ( 2.0f );
-    DoubleType dt ( 2 );
-    IntType it ( 2 ) ;
+    Numeric dt ( 2 );
+    Numeric it ( 2 ) ;
 
     ft += 2.0f;    
     std::cout << "FloatType add result=" << ft << std::endl;
