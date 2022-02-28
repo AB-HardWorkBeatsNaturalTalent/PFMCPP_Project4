@@ -79,7 +79,6 @@ If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptas
 */
 
 
-
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings. 
@@ -211,15 +210,17 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <memory>
 
 
-template<typename Type> //need to go back to vids.
+template<typename MyTypeName> 
 struct Numeric
 {
-    Numeric& operator+=( float rhs );
-    Numeric& operator-=( float rhs );
-    Numeric& operator*=( float rhs );
-    Numeric& operator/=( float rhs );
+    using Type = MyTypeName;//treat as static member var
 
-    operator float() const { return *value; }
+    Numeric& operator+=( Type rhs );
+    Numeric& operator-=( Type rhs );
+    Numeric& operator*=( Type rhs );
+    Numeric& operator/=( Type rhs );
+
+    operator float() const { return *value; } //? how about here
 
     Numeric& pow( Type f );
     Numeric& pow( const Numeric& );
@@ -241,28 +242,28 @@ struct Numeric
 
     private:
         std::unique_ptr<Type> value;
-        Numeric& powInternal( const float exp );
+        Numeric& powInternal( const Type exp );
 };
 Numeric
-Numeric& Numeric::operator+=(float rhs)
+Numeric& Numeric::operator+=(Type rhs)
 {
     *value += rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator-=(float rhs)
+Numeric& Numeric::operator-=(Type rhs)
 {
     *value -= rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator*=(float rhs)
+Numeric& Numeric::operator*=(Type rhs)
 {
     *value *= rhs;
     return *this;
 } 
 
-Numeric& Numeric::operator/=(float rhs)
+Numeric& Numeric::operator/=(Type rhs)
 {
     if( rhs == 0.0f )
     {
@@ -273,11 +274,7 @@ Numeric& Numeric::operator/=(float rhs)
     return *this;
 } 
 
-Numeric& Numeric::pow( float e )
-{
-    return powInternal(e);
-}
-Numeric& Numeric::pow( const IntType& e ) 
+Numeric& Numeric::pow( Type e )
 {
     return powInternal(e);
 }
@@ -285,16 +282,20 @@ Numeric& Numeric::pow( const Numeric& e )
 {
     return powInternal(e);
 }
-Numeric& Numeric::pow( const DoubleType& e ) 
+Numeric& Numeric::pow( const Numeric& e ) 
 {
-    return powInternal(static_cast<float>(e));
+    return powInternal(e);
 }
-Numeric& Numeric::powInternal( const float e ) 
+Numeric& Numeric::pow( const Numeric& e ) 
+{
+    return powInternal(static_cast<Type>(e));
+}
+Numeric& Numeric::powInternal( const Type e ) 
 {
     *value = std::pow(*value, e );
     return *this;
 }
-Numeric& Numeric::apply(std::function<Numeric&(float&)> func)
+Numeric& Numeric::apply(std::function<Numeric&(Type&)> func)
 {
     if(func)
     {
@@ -302,7 +303,7 @@ Numeric& Numeric::apply(std::function<Numeric&(float&)> func)
     }
     return *this;
 }
-Numeric& Numeric::apply(void(*func)(float&))
+Numeric& Numeric::apply(void(*func)(Type&))
 {
     if(func)
     {
