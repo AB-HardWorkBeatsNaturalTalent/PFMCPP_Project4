@@ -220,7 +220,7 @@ struct Numeric
     Numeric& operator*=( Type rhs );
     Numeric& operator/=( Type rhs );
 
-    operator float() const { return *value; } //? how about here
+    operator Type() const { return *value; } //? how about here
 
     Numeric& pow( Type f );
     Numeric& pow( const Numeric& );
