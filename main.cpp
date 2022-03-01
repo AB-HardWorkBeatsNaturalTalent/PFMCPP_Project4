@@ -209,7 +209,6 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <functional>
 #include <memory>
 
-
 template<typename MyTypeName> 
 struct Numeric
 {
@@ -243,8 +242,6 @@ struct Numeric
 
     operator Type() { return *value; } 
 
-    Numeric& pow( const Type& f );
-    Numeric& pow( const Numeric& );    
 
     Numeric& apply( std::function<Numeric&( std::unique_ptr<Type>& )> func )
     {
@@ -267,7 +264,7 @@ struct Numeric
         return *this;
     }
 
-    Numeric( Type val ) : value( std::make_unique<Type>( val ) )
+    explicit Numeric( Type val ) : value( std::make_unique<Type>( val ) )
     {        
     }
 
@@ -275,56 +272,40 @@ struct Numeric
     {
         value.reset(nullptr);
     }
+    Numeric& pow( const Type& e )
+    {
+        return powInternal(e);
+    }
+
+    // Numeric& pow( const Numeric& e ) 
+    // {
+    //     return powInternal(e);
+    // }
+
+    Numeric& pow( const Numeric& e ) 
+    {
+        return powInternal(static_cast<Type>(e));
+    }
 
     private:
         std::unique_ptr<Type> value;
-        Numeric& powInternal( const Type& exp );
+        Numeric& powInternal( const Type& exp ) 
+        {
+            *value = std::pow( *value, exp );
+            return *this;
+        }
 };
 
-Numeric& Numeric::pow( const Type& e )
+template <typename NumericType>
+void myNumericFreeFunc(std::unique_ptr<NumericType>& num)
 {
-    return powInternal(e);
+    auto& numRef = * num;
+    numRef += static_cast<NumericType>(7.0);
 }
-Numeric& Numeric::pow( const Numeric& e ) 
-{
-    return powInternal(e);
-}
-Numeric& Numeric::pow( const Numeric& e ) 
-{
-    return powInternal(static_cast<Type>(e));
-}
-Numeric& Numeric::powInternal( const Type& e ) 
-{
-    *value = std::pow(*value, e );
-    return *this;
-}
-Numeric& Numeric::apply(std::function<Numeric&(Type&)> func)
-{
-    if(func)
-    {
-        return func(*value);
-    }
-    return *this;
-}
-Numeric& Numeric::apply(void(*func)(Type&))
-{
-    if(func)
-    {
-        func(*value);
-    }
-    return *this;
-}
+
 
 struct Point
 {
-    Point(const Numeric& xp, const Numeric& yp) : x(xp), y(yp)
-    {        
-    }
-
-    Point(const Numeric& xp, const Numeric& yp) : x(static_cast<float>(xp)), y(static_cast<float>(yp)) 
-    {        
-    }
-
     Point(float xp, float yp) : x(xp), y(yp)
     {        
     }
@@ -333,19 +314,6 @@ struct Point
     {
         x *= m;
         y *= m;
-        return *this;
-    }
-
-    Point& multiply(const Numeric& m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-
-    Point& multiply(const Numeric& m)
-    {   x *= static_cast<float>(m);
-        y *= static_cast<float>(m);
         return *this;
     }
     void toString()
@@ -455,11 +423,6 @@ void myIntFreeFunct(int& i)
     i += 5;
 }
 
-template<double>
-void myNumericFreeFunct(const Numeric&)
-{
-    
-}
 
 
 // void part6()
@@ -590,17 +553,19 @@ void part7()
 
     {
         using Type = decltype(ft3)::Type;
-        ft3.apply( [&ft3](std::unique_ptr<NumericType>& ui) -> ReturnType& 
+        using ReturnType = decltype(ft3);
+        
+        ft3.apply( [&ft3](std::unique_ptr<Type>& ui) -> ReturnType& 
         {
-            *ui = *ui * *ui;
-            return ui;
-        } ); //TODO
+            *ui += 7.0f;
+            return ft3;
+        } ); 
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
     std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    ft3.apply(myNumericFreeFunct<float>.apply(myNumericFreeFunct<float>);
     std::cout << "ft3 after: " << ft3 << std::endl;
     std::cout << "---------------------\n" << std::endl;
 
@@ -608,8 +573,13 @@ void part7()
     std::cout << "dt3 before: " << dt3 << std::endl;
 
     {
-        using Type = #4;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+        using Type = decltype(dt3)::Type;
+        using ReturnType = decltype(dt3);
+        dt3.apply( [&dt3](std::unique_ptr<Type>& nt) -> ReturnType&
+        {
+            *nt += 6.0;
+            return dt3;
+        } ); 
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
@@ -623,13 +593,18 @@ void part7()
     std::cout << "it3 before: " << it3 << std::endl;
 
     {
-        using Type = #4;
-        it3.apply( [](std::unique...){} );
+        using Type = decltype(it3)::Type;
+        using ReturnType = decltype(it3);
+        it3.apply( [&it3](std::unique_ptr<Type>& nti) -> ReturnType& 
+        {
+            *nti += 5;
+            return it3;
+        } );
     }
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    it3.apply(myNumericFreeFunct<int>).apply(myNumericFreeFunct<int>);
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
