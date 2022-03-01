@@ -229,12 +229,12 @@ struct Numeric
         *value *= rhs;
         return *this;
     }
-    template<typename T_>
-    Numeric& operator/=( const T_ rhs )
+    template<typename T>
+    Numeric& operator/=( const T rhs )
     {
         if constexpr (std::is_same<Type, int>::value)
         {
-            if constexpr (std::is_same<T_, int>::value)
+            if constexpr (std::is_same<T, int>::value)
             {
                 if (rhs == 0)
                 {
@@ -242,13 +242,13 @@ struct Numeric
                     return *this;
                 }
             }
-            else if (std::abs(rhs) <= std::numeric_limits<T_>::epsilon())
+            else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
             {
                 std::cout << "can't divide integers by zero!\n";
                 return *this;
             }
         }
-        else if (std::abs(rhs) <= std::numeric_limits<T_>::epsilon())
+        else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
         {
             std::cout << "warning: floating point division by zero!\n";
         }
@@ -309,6 +309,17 @@ void myNumericFreeFunct(std::unique_ptr<NumericType>& num)
     auto& numRef = * num;
     numRef += static_cast<NumericType>(7.0);
 }
+
+/* TODO
+
+#6) add an explicit template specialization for 'double' of your wrapper class
+        this template specialization will have one apply() function instead of 2. 
+
+#7) this apply() function will be templated, and expect a Callable object, not std::function<>. 
+        the function should allow for chaining.  
+        the callable object should return void, like the function pointer-based apply() function in the primary class template
+
+#8) instantiate your explicit template specialization*/
 
 
 
