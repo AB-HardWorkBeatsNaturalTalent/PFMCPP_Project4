@@ -230,12 +230,30 @@ struct Numeric
         return *this;
     }
 
-    Numeric& operator/=( const Type& rhs )
+    template <typename TRhs>
+    Numeric& operator/=(const TRhs& rhs)
     {
-        if( rhs == 0.0f )
+        if constexpr (std::is_same<Type, int>::value)
         {
-        std::cout << "warning: floating point division by zero!" << std::endl;
-        }    
+            if constexpr (std::is_same<TRhs, int>::value)
+            {
+                if (rhs == 0)
+                {
+                    std::cout << "error: integer division by zero is an error and will crash the program!\n";
+                    return *this;
+                }
+            }
+            else if (std::abs(rhs) <= std::numeric_limits<TRhs>::epsilon())
+            {
+                std::cout << "can't divide integers by zero!\n";
+                return *this;
+            }
+        }
+        else if (std::abs(rhs) <= std::numeric_limits<TRhs>::epsilon())
+        {
+            std::cout << "warning: floating point division by zero!\n";
+        }
+
         *value /= rhs;
         return *this;
     }
@@ -246,9 +264,9 @@ struct Numeric
     Numeric& apply( std::function<Numeric&( std::unique_ptr<Type>& )> func )
     {
         std::cout <<"std::function<>" << std::endl;
-        if(func) //if the function is not null
+        if(func) 
         {
-            return f(value); //return the output of the function at our value
+            return func(value); 
         }
         return *this; 
     }
@@ -277,16 +295,6 @@ struct Numeric
         return powInternal(e);
     }
 
-    // Numeric& pow( const Numeric& e ) 
-    // {
-    //     return powInternal(e);
-    // }
-
-    Numeric& pow( const Numeric& e ) 
-    {
-        return powInternal(static_cast<Type>(e));
-    }
-
     private:
         std::unique_ptr<Type> value;
         Numeric& powInternal( const Type& exp ) 
@@ -297,7 +305,7 @@ struct Numeric
 };
 
 template <typename NumericType>
-void myNumericFreeFunc(std::unique_ptr<NumericType>& num)
+void myNumericFreeFunct(std::unique_ptr<NumericType>& num)
 {
     auto& numRef = * num;
     numRef += static_cast<NumericType>(7.0);
@@ -565,7 +573,7 @@ void part7()
     std::cout << "ft3 after: " << ft3 << std::endl;
     std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply(myNumericFreeFunct<float>.apply(myNumericFreeFunct<float>);
+    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
     std::cout << "ft3 after: " << ft3 << std::endl;
     std::cout << "---------------------\n" << std::endl;
 
@@ -604,7 +612,7 @@ void part7()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply(myNumericFreeFunct<int>).apply(myNumericFreeFunct<int>);
+    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
