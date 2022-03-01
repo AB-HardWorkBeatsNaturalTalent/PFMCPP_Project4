@@ -262,7 +262,7 @@ struct Numeric
 
     Numeric& apply( std::function<Numeric&( std::unique_ptr<Type>& )> func )
     {
-        std::cout <<"std::function<>" << std::endl;
+        //std::cout <<"std::function<>" << std::endl;
         if(func) 
         {
             return func(value); 
@@ -273,7 +273,7 @@ struct Numeric
     
     Numeric& apply( void(*f)( std::unique_ptr<Type>& ) )
     {
-        std::cout << "free function" << std::endl;
+        //std::cout << "free function" << std::endl;
         if( f )
         {
             f(value);
@@ -282,21 +282,21 @@ struct Numeric
     }
 
     explicit Numeric( Type val ) : value( std::make_unique<Type>( val ) )
-    {        
+    { //does this mean that we dont have to use <some type> when we instantiate?       
     }
 
     ~Numeric()
     {
         value.reset(nullptr);
     }
-    Numeric& pow( const Type& e )
+    Numeric& pow( Type e )
     {
         return powInternal(e);
     }
 
     private:
         std::unique_ptr<Type> value;
-        Numeric& powInternal(const Type& arg)
+        Numeric& powInternal(Type arg)
         {
             *value = std::pow(*value, arg);
             return *this;
@@ -311,64 +311,6 @@ void myNumericFreeFunct(std::unique_ptr<NumericType>& num)
 }
 
 
-template <>
-struct Numeric<double>
-{
-    using Type = double;
-    explicit Numeric(double v) : value(std::make_unique<double>(v)) {}
-
-    Numeric& operator+=( double rhs )
-    { 
-        *value += rhs;
-        return *this;
-    }
-
-    Numeric& operator-=( double rhs )
-    { 
-        *value -= rhs;
-        return *this;
-    }
-
-    Numeric& operator*=( double rhs )
-    { 
-        *value *= rhs;
-        return *this;
-    }
-
-    Numeric& operator/=( double rhs )
-    {
-        if (rhs == 0.0)
-        { 
-            std::cout << "warning: floating point division by zero!" << std::endl; 
-        }
-
-        *value /= rhs;
-        return *this;
-    }
-
-    operator double() const { return *value; } 
-
-    Numeric& pow(const double& exp) { return pow_internal(exp); }
-
-    template <typename OtherType>
-    Numeric& pow(const OtherType& exp) { return pow_internal(static_cast<double>(exp)); }
-
-    template <typename Callable>
-    Numeric& apply(Callable c)
-    {
-        c(*value);
-        return *this;
-    }
-
-private:
-    Numeric& pow_internal(const double& exp)
-    {
-        *value = static_cast<double>(std::pow(*value, exp));
-        return *this;
-    }
-    
-    std::unique_ptr<double> value;
-};
 
 struct Point
 {
@@ -395,15 +337,15 @@ void part4()
     // ------------------------------------------------------------
     //                          Power tests
     // ------------------------------------------------------------
-    Numeric ft1(2);
-    Numeric dt1(2);
-    Numeric it1(2);    
+    Numeric<float> ft1(2);
+    Numeric<double> dt1(2);
+    Numeric<int> it1(2);    
     float floatExp = 2.0f;
     double doubleExp = 2.0;
     int intExp = 2;
-    Numeric itExp(2);
-    Numeric ftExp(2.0f);
-    Numeric dtExp(2.0);
+    Numeric<int> itExp(2);
+    Numeric<float> ftExp(2.0f);
+    Numeric<double> dtExp(2.0);
     
     // Power tests with FloatType
     std::cout << "Power tests with FloatType " << std::endl;
@@ -680,9 +622,9 @@ int main()
     HeapA heapA; 
 
     //assign heap primitives
-    Numeric ft ( 2.0f );
-    Numeric dt ( 2 );
-    Numeric it ( 2 ) ;
+    Numeric<float> ft ( 2.0f );
+    Numeric<double> dt ( 2 );
+    Numeric<int> it ( 2 ) ;
 
     ft += 2.0f;    
     std::cout << "FloatType add result=" << ft << std::endl;
@@ -692,16 +634,16 @@ int main()
     std::cout << "FloatType multiply result=" << ft << std::endl;
     ft /= 16.0f;
     std::cout << "FloatType divide result=" << ft << std::endl << std::endl;
+    
     dt += 2.0;
     std::cout << "DoubleType add result=" << dt<< std::endl;
     dt-= 2.0;
     std::cout << "DoubleType subtract result=" << dt << std::endl;
     dt *= 2.0;
-    std::cout << "DoubleType multiply result=" << dt << std::endl;
-    
-    dt /= 5.0;
-    
+    std::cout << "DoubleType multiply result=" << dt << std::endl;    
+    dt /= 5.0;    
     std::cout << "DoubleType divide result=" << dt << std::endl << std::endl;
+    
     it += 2;
     std::cout << "IntType add result=" << it << std::endl;
     it -= 2;
@@ -731,9 +673,9 @@ int main()
     std::cout << "Initial value of it: " << it << std::endl;
     // --------
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    dt *= static_cast<int>(it);
-    dt /= static_cast<int>(5.0f);
-    dt += static_cast<int>(ft);
+    dt *= it;
+    dt /= 5.0;
+    dt += static_cast<double>(ft);
     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
