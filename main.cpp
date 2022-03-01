@@ -229,13 +229,12 @@ struct Numeric
         *value *= rhs;
         return *this;
     }
-
-    template <typename TRhs>
-    Numeric& operator/=(const TRhs& rhs)
+    template<typename T_>
+    Numeric& operator/=( const T_ rhs )
     {
         if constexpr (std::is_same<Type, int>::value)
         {
-            if constexpr (std::is_same<TRhs, int>::value)
+            if constexpr (std::is_same<T_, int>::value)
             {
                 if (rhs == 0)
                 {
@@ -243,17 +242,17 @@ struct Numeric
                     return *this;
                 }
             }
-            else if (std::abs(rhs) <= std::numeric_limits<TRhs>::epsilon())
+            else if (std::abs(rhs) <= std::numeric_limits<T_>::epsilon())
             {
                 std::cout << "can't divide integers by zero!\n";
                 return *this;
             }
         }
-        else if (std::abs(rhs) <= std::numeric_limits<TRhs>::epsilon())
+        else if (std::abs(rhs) <= std::numeric_limits<T_>::epsilon())
         {
             std::cout << "warning: floating point division by zero!\n";
         }
-
+    
         *value /= rhs;
         return *this;
     }
@@ -515,7 +514,7 @@ void part3()
 
     ft *= ft;
     ft *= ft;
-    ft /= it;  
+    ft /= static_cast<float>(it);  
     std::cout << "The result of FloatType^4 divided by IntType is: " << 
         //ft.multiply( ft ).multiply( ft ).divide( it ) 
         ft
