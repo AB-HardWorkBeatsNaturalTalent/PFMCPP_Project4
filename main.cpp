@@ -298,7 +298,7 @@ struct Numeric
         std::unique_ptr<Type> value;
         Numeric& powInternal(Type arg)
         {
-            *value = std::pow(*value, arg);
+            *value = static_cast<Type>(std::pow(*value, arg));
             return *this;
         }
 };
