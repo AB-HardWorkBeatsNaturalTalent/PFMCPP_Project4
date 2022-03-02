@@ -321,6 +321,27 @@ void myNumericFreeFunct(std::unique_ptr<NumericType>& num)
 
 #8) instantiate your explicit template specialization*/
 
+//we would do template specialization when we want to customize for a specific specialization of the class.
+//for example, perhaps the methods will be different than the default template when we use a double.
+template<>                                          // #6)
+struct Numeric<double>
+{
+    using Type = double; //explicit
+private:
+    std::unique_ptr<Type> ud; //becomes a double
+public:
+    Numeric(double d) : ud( new Type(d) ) { }
+    
+    template<typename Callable>                         // #7)
+    Numeric& apply(Callable&& f)
+    {
+        f(ud);  
+        
+        return *this;//allow for chaining
+    }
+    
+    operator Type() { return *ud; }
+};
 
 
 struct Point
