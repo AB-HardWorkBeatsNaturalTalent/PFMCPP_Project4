@@ -361,30 +361,13 @@ public:
         *ud *= rhs;
         return *this;
     }
-    template<typename T>
-    Numeric& operator/=( const T rhs )
+
+    Numeric& operator/=( const Type& rhs )
     {
-        if constexpr (std::is_same<Type, int>::value)
-        {
-            if constexpr (std::is_same<T, int>::value)
-            {
-                if (rhs == 0)
-                {
-                    std::cout << "error: integer division by zero is an error and will crash the program!\n";
-                    return *this;
-                }
-            }
-            else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
-            {
-                std::cout << "can't divide integers by zero!\n";
-                return *this;
-            }
+        if (rhs == 0.0)
+        { 
+            std::cout << "warning: floating point division by zero!" << std::endl; 
         }
-        else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
-        {
-            std::cout << "warning: floating point division by zero!\n";
-        }
-    
         *ud /= rhs;
         return *this;
     }
