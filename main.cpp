@@ -331,6 +331,11 @@ struct Numeric<double>
     using Type = double; //explicit
 private:
     std::unique_ptr<Type> ud; //becomes a double
+    Numeric& powInternal(Type arg)
+    {
+        *ud = static_cast<Type>(std::pow(*ud, arg));
+        return *this;
+    }
 public:
     Numeric(double d) : ud( new Type(d) ) { }
     
@@ -383,6 +388,12 @@ public:
         *ud /= rhs;
         return *this;
     }
+
+    Numeric& pow( Type e )
+    {
+        return powInternal(e);
+    }
+
     operator Type() { return *ud; }
 };
 
