@@ -323,6 +323,8 @@ void myNumericFreeFunct(std::unique_ptr<NumericType>& num)
 
 //we would do template specialization when we want to customize for a specific specialization of the class.
 //for example, perhaps the methods will be different than the default template when we use a double.
+
+//template struct Numeric<double>;
 template<>                                          // #6)
 struct Numeric<double>
 {
@@ -339,7 +341,48 @@ public:
         
         return *this;//allow for chaining
     }
+    Numeric& operator+=( const Type& rhs )
+    {
+        *ud += rhs;
+        return *this;
+    }
+    Numeric& operator-=( const Type& rhs )
+    {
+        *ud -= rhs;
+        return *this;
+    }
+    Numeric& operator*=( const Type& rhs )
+    {
+        *ud *= rhs;
+        return *this;
+    }
+    template<typename T>
+    Numeric& operator/=( const T rhs )
+    {
+        if constexpr (std::is_same<Type, int>::value)
+        {
+            if constexpr (std::is_same<T, int>::value)
+            {
+                if (rhs == 0)
+                {
+                    std::cout << "error: integer division by zero is an error and will crash the program!\n";
+                    return *this;
+                }
+            }
+            else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
+            {
+                std::cout << "can't divide integers by zero!\n";
+                return *this;
+            }
+        }
+        else if (std::abs(rhs) <= std::numeric_limits<T>::epsilon())
+        {
+            std::cout << "warning: floating point division by zero!\n";
+        }
     
+        *ud /= rhs;
+        return *this;
+    }
     operator Type() { return *ud; }
 };
 
@@ -648,6 +691,10 @@ void part7()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
+
+//this would have no effect, since it comes after the explicit specialization.
+//template struct Numeric<double>;
+
 int main()
 {   
     //testing instruction 0
@@ -736,6 +783,7 @@ int main()
     part4();
     // part6();
     part7();
+
     std::cout << "good to go!\n";
 
     return 0;
