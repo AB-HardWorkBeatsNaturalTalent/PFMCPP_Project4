@@ -230,7 +230,7 @@ struct Numeric
         return *this;
     }
     template<typename T>
-    Numeric& operator/=( const T rhs )
+    Numeric& operator/=( const T rhs ) FIXME: pass by const ref
     {
         if constexpr (std::is_same<Type, int>::value)
         {
@@ -281,22 +281,22 @@ struct Numeric
         return *this;
     }
 
-    explicit Numeric( Type val ) : value( std::make_unique<Type>( val ) )
+    explicit Numeric( Type val ) : value( std::make_unique<Type>( val ) ) FIXME: constructors and destructors should be the first things declared in a class.
     { //does this mean that we dont have to use <some type> when we instantiate?       
     }
 
-    ~Numeric()
+    ~Numeric() FIXME: constructors and destructors should be the first things declared in a class.
     {
         value.reset(nullptr);
     }
-    Numeric& pow( Type e )
+    Numeric& pow( Type e ) FIXME: pass by const ref
     {
         return powInternal(e);
     }
 
     private:
         std::unique_ptr<Type> value;
-        Numeric& powInternal(Type arg)
+        Numeric& powInternal(Type arg) FIXME: pass by const ref
         {
             *value = static_cast<Type>(std::pow(*value, arg));
             return *this;
@@ -331,13 +331,13 @@ struct Numeric<double>
     using Type = double; //explicit
 private:
     std::unique_ptr<Type> ud; //becomes a double
-    Numeric& powInternal(Type arg)
+    Numeric& powInternal(Type arg) FIXME: pass by const ref
     {
         *ud = static_cast<Type>(std::pow(*ud, arg));
         return *this;
     }
 public:
-    Numeric(double d) : ud( new Type(d) ) { }
+    Numeric(double d) : ud( new Type(d) ) { } FIXME: constructors and destructors should be the first things declared in a class.
     
     template<typename Callable>                         // #7)
     Numeric& apply(Callable&& f)
@@ -372,7 +372,7 @@ public:
         return *this;
     }
 
-    Numeric& pow( Type e )
+    Numeric& pow( Type e ) FIXME: pass by const ref
     {
         return powInternal(e);
     }
@@ -387,7 +387,7 @@ struct Point
     {        
     }
 
-    Point& multiply(float m)
+    Point& multiply(float m) 
     {
         x *= m;
         y *= m;
